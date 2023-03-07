@@ -7,8 +7,19 @@
 get_chunk_info(lat, lon, nc_data)
 }
 \arguments{
-\item{nc_data}{}
+\item{nc_data}{Generated from the load_index_data}
 }
 \description{
 Title
+}
+\examples{
+# Set coordinates of farm field
+farm_coords <- c(43.854, -111.776)
+# Download HRRR grid metadata to get chunk_id and x and y for coordinates
+nc_data <- load_index_data()
+# Get chunk coordinates for farm field
+chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
+chunk_id <- chunk_info[1]
+in_chunk_x <- as.numeric(chunk_info[2])
+in_chunk_y <- as.numeric(chunk_info[3])
 }

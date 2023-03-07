@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{convert_list_col}
 \alias{convert_list_col}
-\title{Title}
+\title{Convert a dataframe within a dataframe to columns}
 \usage{
 convert_list_col(data_to_concat, data, name_col)
 }
@@ -10,5 +10,5 @@ convert_list_col(data_to_concat, data, name_col)
 \item{name_col}{}
 }
 \description{
-Title
+Will work with different lengths of of columns
 }

@@ -2,10 +2,24 @@
 % Please edit documentation in R/data_retrival.R
 \name{load_index_data}
 \alias{load_index_data}
-\title{Title}
+\title{Gets Data URL from Amazon}
 \usage{
 load_index_data()
 }
 \description{
-Title
+Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
+"The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
+initialized by 3km grids with 3km radar assimilation. Radar data is assimilated in the HRRR every 15 min over a 1-h period
+adding further detail to that provided by the hourly data assimilation from the 13km radar-enhanced Rapid Refresh."
+}
+\examples{
+# Download HRRR grid metadata to get chunk_id and x and y for coordinates
+nc_data <- load_index_data()
+# Set coordinates of farm field
+farm_coords <- c(43.854, -111.776)
+# Get chunk coordinates for farm field
+chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
+chunk_id <- chunk_info[1]
+in_chunk_x <- as.numeric(chunk_info[2])
+in_chunk_y <- as.numeric(chunk_info[3])
 }

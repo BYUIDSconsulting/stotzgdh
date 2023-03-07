@@ -2,13 +2,36 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_url}
 \alias{get_url}
-\title{Title}
+\title{Gets Data URL from Amazon Data}
 \usage{
 get_url(gdh_date, chunk_id)
 }
 \arguments{
-\item{chunk_id}{}
+\item{gdh_date}{A date}
+
+\item{chunk_id}{A number}
+}
+\value{
+A downloaded file
 }
 \description{
-Title
+Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
+"The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
+initialized by 3km grids with 3km radar assimilation. Radar data is assimilated in the HRRR every 15 min over a 1-h period
+adding further detail to that provided by the hourly data assimilation from the 13km radar-enhanced Rapid Refresh."
+
+Data coming from the URL is data for one hour at a time for a whole grid.
+
+Some values will not exist resulting in no url found and na values in the data. One can search through the AWS S3 Explorer
+here https://hrrrzarr.s3.amazonaws.com/index.html#sfc/ and then searching based off date and adding /{specified_date}_23z_anl.zarr/surface/TMP/surface/TMP/
+to the url to see the different chunks availabe for download in that hour. In this example URL 23 represents the 24th hour of the day with the first hour count
+starting at 0 (aka military time).
+}
+\examples{
+hrrr_url <- get_url(
+    as.POSIXct("2022-06-24 15:00:00", format="\%Y-\%m-\%d \%H:\%M:\%S", tz="US/Mountain"),
+    "5.3")
+}
+\references{
+https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources
 }

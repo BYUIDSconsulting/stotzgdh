@@ -2,13 +2,26 @@
 % Please edit documentation in R/data_retrival.R
 \name{read_grid_from_url}
 \alias{read_grid_from_url}
-\title{Title}
+\title{Reading Data from URL from get_url}
 \usage{
 read_grid_from_url(hrrr_url)
 }
 \arguments{
-\item{hrrr_url}{}
+\item{hrrr_url}{a character}
+}
+\value{
+? - does it return a a dataframe?
 }
 \description{
-Title
+If file doesn't exist it will set the temperature, in Kelvin (Temperature returned), to a na value. The
+input of the function comes from the get_url function, but can get specified manually. See description for get_url to
+know url.
+}
+\examples{
+# Get a grid of temperature data for grid chunk 5.3 on June 24, 2022 at 3 PM MDT
+hrrr_url <- get_url(
+    as.POSIXct("2022-06-24 15:00:00", format="\%Y-\%m-\%d \%H:\%M:\%S", tz="US/Mountain"),
+    "5.3")
+# The URL is  "https://hrrrzarr.s3.amazonaws.com/sfc/20220624/20220624_15z_anl.zarr/surface/TMP/surface/TMP/5.3"
+data_grid <- read_grid_from_url(hrrr_url)
 }

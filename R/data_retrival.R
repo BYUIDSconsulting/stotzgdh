@@ -1,16 +1,23 @@
-#' Title
+#' Gets Data URL from Amazon
 #'
 #' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
 #'  "The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
 #'  initialized by 3km grids with 3km radar assimilation. Radar data is assimilated in the HRRR every 15 min over a 1-h period
 #'  adding further detail to that provided by the hourly data assimilation from the 13km radar-enhanced Rapid Refresh."
 #'
-#' @source https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources
-#'
-#' @return
+#' @return An object of class ncdf4. Format NC_FORMAT_64BIT
 #' @export
 #'
 #' @examples
+#' # Download HRRR grid metadata to get chunk_id and x and y for coordinates
+#' nc_data <- load_index_data()
+#' # Set coordinates of farm field
+#' farm_coords <- c(43.854, -111.776)
+#' # Get chunk coordinates for farm field
+#' chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
+#' chunk_id <- chunk_info[1]
+#' in_chunk_x <- as.numeric(chunk_info[2])
+#' in_chunk_y <- as.numeric(chunk_info[3])
 load_index_data <- function(){
   # base r
   tf <- tempfile()
@@ -34,12 +41,21 @@ load_index_data <- function(){
 #'
 #' @param lat
 #' @param lon
-#' @param nc_data
+#' @param nc_data Generated from the load_index_data
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' # Set coordinates of farm field
+#' farm_coords <- c(43.854, -111.776)
+#' # Download HRRR grid metadata to get chunk_id and x and y for coordinates
+#' nc_data <- load_index_data()
+#' # Get chunk coordinates for farm field
+#' chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
+#' chunk_id <- chunk_info[1]
+#' in_chunk_x <- as.numeric(chunk_info[2])
+#' in_chunk_y <- as.numeric(chunk_info[3])
 get_chunk_info <- function(lat, lon, nc_data){
   coords <- c(lon, lat)
   my_point_sfc <- sf::st_sfc(sf::st_point(coords), crs=4326)
@@ -63,17 +79,32 @@ get_chunk_info <- function(lat, lon, nc_data){
 
 
 
-#' Title
+#' Gets Data URL from Amazon Data
 #'
-#' @description
+#' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
+#'  "The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
+#'  initialized by 3km grids with 3km radar assimilation. Radar data is assimilated in the HRRR every 15 min over a 1-h period
+#'  adding further detail to that provided by the hourly data assimilation from the 13km radar-enhanced Rapid Refresh."
 #'
-#' @param gdh_date
-#' @param chunk_id
+#'  Data coming from the URL is data for one hour at a time for a whole grid.
 #'
-#' @return
+#'  Some values will not exist resulting in no url found and na values in the data. One can search through the AWS S3 Explorer
+#'  here https://hrrrzarr.s3.amazonaws.com/index.html#sfc/ and then searching based off date and adding /{specified_date}_23z_anl.zarr/surface/TMP/surface/TMP/
+#'  to the url to see the different chunks availabe for download in that hour. In this example URL 23 represents the 24th hour of the day with the first hour count
+#'  starting at 0 (aka military time).
+#'
+#' @references https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources
+#'
+#' @param gdh_date A date
+#' @param chunk_id A number
+#'
+#' @return A downloaded file
 #' @export
 #'
 #' @examples
+#' hrrr_url <- get_url(
+#'     as.POSIXct("2022-06-24 15:00:00", format="%Y-%m-%d %H:%M:%S", tz="US/Mountain"),
+#'     "5.3")
 get_url <- function(gdh_date, chunk_id){
   # uses all base r functions
   return (sprintf("https://hrrrzarr.s3.amazonaws.com/sfc/%s/%s/surface/TMP/surface/TMP/%s",
@@ -86,16 +117,24 @@ get_url <- function(gdh_date, chunk_id){
 
 
 
-#' Title
+#' Reading Data from URL from get_url
 #'
-#' @description
+#' @description If file doesn't exist it will set the temperature, in Kelvin (Temperature returned), to a na value. The
+#'  input of the function comes from the get_url function, but can get specified manually. See description for get_url to
+#'  know url.
 #'
-#' @param hrrr_url
+#' @param hrrr_url a character
 #'
-#' @return
+#' @return ? - does it return a a dataframe?
 #' @export
 #'
 #' @examples
+#' # Get a grid of temperature data for grid chunk 5.3 on June 24, 2022 at 3 PM MDT
+#' hrrr_url <- get_url(
+#'     as.POSIXct("2022-06-24 15:00:00", format="%Y-%m-%d %H:%M:%S", tz="US/Mountain"),
+#'     "5.3")
+#' # The URL is  "https://hrrrzarr.s3.amazonaws.com/sfc/20220624/20220624_15z_anl.zarr/surface/TMP/surface/TMP/5.3"
+#' data_grid <- read_grid_from_url(hrrr_url)
 read_grid_from_url <- function(hrrr_url){
   #//Q - can we reduce two line below to one or
   np <- import("numpy")
@@ -127,11 +166,10 @@ read_grid_from_url <- function(hrrr_url){
 
 
 
-# Convert a dataframe within a dataframe to columns
-# It works with different lengths of columns
-#' Title
+
+#' Convert a dataframe within a dataframe to columns
 #'
-#' @description
+#' @description Will work with different lengths of of columns
 #'
 #' @param data_to_concat
 #' @param data
