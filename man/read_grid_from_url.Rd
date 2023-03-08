@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{read_grid_from_url}
 \alias{read_grid_from_url}
-\title{Reading Data from URL from get_url}
+\title{Reading Data from URL returned by get_url function}
 \usage{
 read_grid_from_url(hrrr_url)
 }

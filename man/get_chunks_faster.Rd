@@ -7,8 +7,17 @@
 get_chunks_faster(x, max_date, min_date, rows = NULL)
 }
 \arguments{
-\item{rows}{}
+\item{max_date}{A Character}
+
+\item{min_date}{A Character}
+
+\item{rows}{Defaults to null}
+}
+\value{
+A dataframe with dates and tibbles of the data from the Amazon URL
 }
 \description{
-Title
+Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
+If rows are not null, it Utilizes furrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
+and converts to a tibble inside a dataframe.
 }

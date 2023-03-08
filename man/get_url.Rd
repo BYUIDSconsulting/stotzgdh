@@ -9,10 +9,10 @@ get_url(gdh_date, chunk_id)
 \arguments{
 \item{gdh_date}{A date}
 
-\item{chunk_id}{A number}
+\item{chunk_id}{a numeric value}
 }
 \value{
-A downloaded file
+A URL to download data
 }
 \description{
 Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,

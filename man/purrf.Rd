@@ -7,8 +7,13 @@
 purrf(la, lo)
 }
 \arguments{
-\item{lo}{}
+\item{la}{a Numeric value}
+
+\item{lo}{Numeric Value}
+}
+\value{
+Vector containing chunk id, y and x
 }
 \description{
-Title
+Calls the get_chunk_info and
 }

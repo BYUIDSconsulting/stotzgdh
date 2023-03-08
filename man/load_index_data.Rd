@@ -2,9 +2,12 @@
 % Please edit documentation in R/data_retrival.R
 \name{load_index_data}
 \alias{load_index_data}
-\title{Gets Data URL from Amazon}
+\title{Gets Index Data on chunks from URL}
 \usage{
 load_index_data()
+}
+\value{
+An object of class ncdf4. Format NC_FORMAT_64BIT
 }
 \description{
 Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,

@@ -9,6 +9,10 @@ match_combine_data(fields_chunk_info, cdat)
 \arguments{
 \item{cdat}{}
 }
+\value{
+a Dataframe containing temperatures by
+}
 \description{
-Title
+takes fields chunk data and filters to seeding_date, harvest_date, chunk_id, in_chunk_x, in_chunk_y
+then gets the temperature for the data by utilizing purrr's pmap function on the get_temp_from_date_range_cdat function.
 }

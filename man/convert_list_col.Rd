@@ -9,6 +9,9 @@ convert_list_col(data_to_concat, data, name_col)
 \arguments{
 \item{name_col}{}
 }
+\value{
+A DataFrame
+}
 \description{
-Will work with different lengths of of columns
+Will work with different lengths of columns
 }

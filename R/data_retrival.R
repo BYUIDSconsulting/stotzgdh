@@ -1,4 +1,4 @@
-#' Gets Data URL from Amazon
+#' Gets Index Data on chunks from URL
 #'
 #' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
 #'  "The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
@@ -35,7 +35,7 @@ load_index_data <- function(){
 
 
 
-#' Title
+#' Getting chunk metadata data
 #'
 #' @description
 #'
@@ -43,7 +43,7 @@ load_index_data <- function(){
 #' @param lon
 #' @param nc_data Generated from the load_index_data
 #'
-#' @return
+#' @return Vector containing chunk id, y and x
 #' @export
 #'
 #' @examples
@@ -96,9 +96,9 @@ get_chunk_info <- function(lat, lon, nc_data){
 #' @references https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources
 #'
 #' @param gdh_date A date
-#' @param chunk_id A number
+#' @param chunk_id a numeric value
 #'
-#' @return A downloaded file
+#' @return A URL to download data
 #' @export
 #'
 #' @examples
@@ -117,7 +117,7 @@ get_url <- function(gdh_date, chunk_id){
 
 
 
-#' Reading Data from URL from get_url
+#' Reading Data from URL returned by get_url function
 #'
 #' @description If file doesn't exist it will set the temperature, in Kelvin (Temperature returned), to a na value. The
 #'  input of the function comes from the get_url function, but can get specified manually. See description for get_url to
@@ -169,13 +169,13 @@ read_grid_from_url <- function(hrrr_url){
 
 #' Convert a dataframe within a dataframe to columns
 #'
-#' @description Will work with different lengths of of columns
+#' @description Will work with different lengths of columns
 #'
 #' @param data_to_concat
 #' @param data
 #' @param name_col
 #'
-#' @return
+#' @return A DataFrame
 #' @export
 #'
 #' @examples
@@ -198,12 +198,12 @@ convert_list_col <- function(data_to_concat, data, name_col){
 # This is to get the ability to get all of the chunk_ids at one go
 #' Title
 #'
-#' @description
+#' @description Calls the get_chunk_info and
 #'
-#' @param la
-#' @param lo
+#' @param la a Numeric value
+#' @param lo Numeric Value
 #'
-#' @return
+#' @return Vector containing chunk id, y and x
 #' @export
 #'
 #' @examples
@@ -218,17 +218,21 @@ purrf <- function(la, lo) {
 # This gets all of the data of the specified dates of chunks
 #' Title
 #'
-#' @description
+#' @description  Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
+#'  If rows are not null, it Utilizes purrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
+#'  and converts to a tibble inside a dataframe.
+#'
 #'
 #' @param x
-#' @param max_date
-#' @param min_date
-#' @param rows
+#' @param max_date A character
+#' @param min_date A Character
+#' @param rows defaults to null
 #'
 #' @return
 #' @export
 #'
 #' @examples
+#' //Q - what is x?
 get_chunks <- function(x, max_date, min_date, rows = NULL) {
   dates_to_get <- seq(
     as.POSIXct(min_date, tz="GMT"),
@@ -252,14 +256,16 @@ get_chunks <- function(x, max_date, min_date, rows = NULL) {
 # This gets all of the data of the specified dates of chunks (x being the chunk_id) using furrr::future_map
 #' Title
 #'
-#' @description
+#' @description Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
+#'  If rows are not null, it Utilizes furrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
+#'  and converts to a tibble inside a dataframe.
 #'
 #' @param x
-#' @param max_date
-#' @param min_date
-#' @param rows
+#' @param max_date A Character
+#' @param min_date A Character
+#' @param rows Defaults to null
 #'
-#' @return
+#' @return A dataframe with dates and tibbles of the data from the Amazon URL
 #' @export
 #'
 #' @examples
@@ -285,17 +291,18 @@ get_chunks_faster <- function(x, max_date, min_date, rows = NULL) {
 
 #' Title
 #'
-#' @description
+#' @description takes fields chunk data and filters to seeding_date, harvest_date, chunk_id, in_chunk_x, in_chunk_y
+#'  then gets the temperature for the data by utilizing purrr's pmap function on the get_temp_from_date_range_cdat function.
 #'
 #' @param fields_chunk_info
 #' @param cdat
 #'
-#' @return
+#' @return a Dataframe containing temperatures by
 #' @export
 #'
 #' @examples
 match_combine_data <- function(fields_chunk_info, cdat){
-  temp_list <- purrr:::pmap(
+  temp_list <- purrr::pmap(
     dplyr::select(
       fields_chunk_info, seeding_date, harvest_date, chunk_id, in_chunk_x, in_chunk_y),
     ~get_temp_from_date_range_cdat(cdat, ..1, ..2, ..3, ..4, ..5))
@@ -305,7 +312,7 @@ match_combine_data <- function(fields_chunk_info, cdat){
     plyr::lapply(temp_list, function(x) data.table::data.table(t(x))),
     fill = TRUE
   )
-  # base r
+  #//Q base r
   kk <- convert_dataframe_col(fields_chunk_info, dt, "V")
 
   return(kk)

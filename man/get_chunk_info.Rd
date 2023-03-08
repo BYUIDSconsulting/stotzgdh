@@ -2,15 +2,18 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_chunk_info}
 \alias{get_chunk_info}
-\title{Title}
+\title{Getting chunk metadata data}
 \usage{
 get_chunk_info(lat, lon, nc_data)
 }
 \arguments{
 \item{nc_data}{Generated from the load_index_data}
 }
+\value{
+Vector containing chunk id, y and x
+}
 \description{
-Title
+Getting chunk metadata data
 }
 \examples{
 # Set coordinates of farm field
