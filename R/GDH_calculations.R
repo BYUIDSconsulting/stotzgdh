@@ -2,7 +2,7 @@
 
 
 
-#' Calculates the Growing Degree Hours
+#' Calculates the Growing Degree Hours and Summing Them to Get the Growing Degree Days
 #'
 #' @description
 #' Gets the summation of the growing degree hours for a specific crop.
