@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{load_index_data}
 \alias{load_index_data}
-\title{Gets Index Data on chunks from URL}
+\title{Gets MetaData on chunks from URL}
 \usage{
 load_index_data()
 }

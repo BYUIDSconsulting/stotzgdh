@@ -1,4 +1,4 @@
-#' Gets Index Data on chunks from URL
+#' Gets MetaData on chunks from URL
 #'
 #' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
 #'  "The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
@@ -35,9 +35,9 @@ load_index_data <- function(){
 
 
 
-#' Getting chunk metadata data
+#' Getting specified field's metadata
 #'
-#' @description
+#' @description Utilized in the purrr function. get_chunk_info ...
 #'
 #' @param lat
 #' @param lon

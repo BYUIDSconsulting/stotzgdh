@@ -32,3 +32,46 @@ gdh <- function(..., crop, crop_data) {
     return(sum(values))
   }
 }
+
+
+
+
+#' Linear Interpolation of GDD
+#'
+#' @description li inputs is a dataframe that has the GDD over a set of days. It then groups by
+#'  Field ID, crop season, and cropname where each group is split into a dataframe. Linear interpolation
+#'  is done on each dataframe to replace those na values. It then rbinds each dataframe back together to return
+#'  a dataframe with linear interpolation applied and a new column that identifies those days with na values
+#'
+#'  It should be noted when an na value is on the last or first row of the dataframe the linear interpolation will
+#'  assign the na value the value of the next column. So the previous if the na value is the last row or second column
+#'  if it is the first row.
+#'
+#' @param dataset
+#'
+#' @return dataset
+#' @export
+#'
+#' @examples
+#'
+#'
+li <- function(data){
+  # groupby field id, crop season, cropname to split each group into a dataframe.
+  group <- data %>%
+    dplyr::mutate(temp_is_na = dplyr::case_when(is.na(GDD) ~ 1,
+                                                TRUE ~ 0)) %>%
+    group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
+    group_split()
+  # create grouplist vector
+  grouplist = vector("list", length = length(group))
+  # loop through to each dataframe seperately to interpolate the GDD
+  for (i in 1:length(group)) {
+    temp_df <- group[[i]] %>% imputeTS::na_interpolation(group[[i]]$GDD, option = 'linear', maxgap = Inf)
+
+    grouplist[[i]] <- temp_df
+  }
+  # rbind all dataframes back into one
+  rbind_test <- do.call('rbind', grouplist)
+
+  return(rbind_test)
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_chunk_info}
 \alias{get_chunk_info}
-\title{Getting chunk metadata data}
+\title{Getting specified field's metadata}
 \usage{
 get_chunk_info(lat, lon, nc_data)
 }
@@ -13,7 +13,7 @@ get_chunk_info(lat, lon, nc_data)
 Vector containing chunk id, y and x
 }
 \description{
-Getting chunk metadata data
+Utilized in the purrr function. get_chunk_info ...
 }
 \examples{
 # Set coordinates of farm field
