@@ -54,7 +54,12 @@ gdh <- function(..., crop, crop_data) {
 #'
 #' @examples
 #'
+#' # By Viewing you will see two na values
+#'View(li_test)
 #'
+#'li_data <- li(li_test)
+#'# The Results of the data after Linear interpolation is applied
+#'View(li_data)
 li <- function(data){
   # groupby field id, crop season, cropname to split each group into a dataframe.
   group <- data %>%
@@ -75,3 +80,6 @@ li <- function(data){
 
   return(rbind_test)
 }
+
+
+

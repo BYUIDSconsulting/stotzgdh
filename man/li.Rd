@@ -22,3 +22,12 @@ It should be noted when an na value is on the last or first row of the dataframe
 assign the na value the value of the next column. So the previous if the na value is the last row or second column
 if it is the first row.
 }
+\examples{
+
+# By Viewing you will see two na values
+View(li_test)
+
+li_data <- li(li_test)
+# The Results of the data after Linear interpolation is applied
+View(li_data)
+}

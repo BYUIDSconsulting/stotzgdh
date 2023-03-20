@@ -3,8 +3,11 @@ Type: Package
 Title: Pulls weather data and calculates GDH
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(person("J.", "Hathway", role = c("aut", "cre"), email = "hathwayj@byui.edu", comment = c(ORCID = "0000-0002-1574-0832"))
+      person("Mike", "Min", role = c("aut", "cre"),comment = c("package function")),
+      person("Jackson", "Merchen", role = c("aut"), comment = c("package functions"))
+      person("Matthew", "Goodsell", role = c("aut"), comment = c("package structure and linear interpolation function")),
+    )
 Description: Weather is retrieved from HRRR an amazon service. It pulls data for certain 
     chunks where stotz customers are. It converts the temp from Kelvin to Farenheit. Saves 
     data. Then takes data and creates another table which gets the GDH for each crop stotz's
