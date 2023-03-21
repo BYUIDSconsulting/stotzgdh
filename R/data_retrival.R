@@ -240,14 +240,14 @@ get_chunks <- function(x, max_date, min_date, rows = NULL) {
     by="hour")
 
   combos <- expand.grid(dates_to_get, x) |>
-    mutate(urls = get_url(Var1, Var2))
+    dplyr::mutate(urls = get_url(Var1, Var2))
 
   if (!is.null(rows)) combos <- combos[1:rows,]
 
   grids <- purrr::map(combos$url, ~read_grid_from_url(.x))
 
   out <- combos |>
-    mutate(grid = purrr::map(grids, as_tibble))
+    dplyr::mutate(grid = purrr::map(grids, as_tibble))
 }
 
 
@@ -276,14 +276,14 @@ get_chunks_faster <- function(x, max_date, min_date, rows = NULL) {
     by="hour")
 
   combos <- expand.grid(dates_to_get, x) |>
-    mutate(urls = get_url(Var1, Var2))
+    dplyr::mutate(urls = get_url(Var1, Var2))
 
   if (!is.null(rows)) combos <- combos[1:rows,]
 
   grids <- furrr::future_map(combos$url, ~read_grid_from_url(.x), .progress = TRUE)
 
   out <- combos |>
-    mutate(grid = furrr::future_map(grids, as_tibble))
+    dplyr::mutate(grid = furrr::future_map(grids, as_tibble))
 }
 
 

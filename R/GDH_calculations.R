@@ -65,8 +65,8 @@ li <- function(data){
   group <- data %>%
     dplyr::mutate(temp_is_na = dplyr::case_when(is.na(GDD) ~ 1,
                                                 TRUE ~ 0)) %>%
-    group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
-    group_split()
+    dplyr::group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
+    dplyr::group_split()
   # create grouplist vector
   grouplist = vector("list", length = length(group))
   # loop through to each dataframe seperately to interpolate the GDD
