@@ -82,4 +82,18 @@ li <- function(data){
 }
 
 
+# create function to get the total count of na values
+li_na_count <- function(data) {
+  # filter dataset down to na value
+  na_dat <- data %>%
+    filter(is.na(GDD))
+  # get numerator and denominator counts
+  na_count <- nrow(na_dat)
+  dat_count <- nrow(data)
+  value <- (na_count / dat_count ) * 100
+
+  return(glue("{value} % of rows contained NA values for a day."))
+}
+
+
 
