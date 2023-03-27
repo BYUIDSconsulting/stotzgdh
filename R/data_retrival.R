@@ -343,3 +343,37 @@ get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_x, in_chunk_y){
 
   return(temp_grid_temp[[1]])
 }
+
+
+#' Title
+#'
+#' @param fields 
+#' @param c_id 
+#' @param in_x 
+#' @param in_y 
+#' @param iteration 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_temp_from_date_range_cdat <- function(fields, c_id, in_x, in_y, iteration){
+  dates_to_get <- seq(as.POSIXct(paste(as.character(fields[iteration,]$`Seeding Date`), "00:00:00"), tz = "GMT"), 
+                      as.POSIXct(paste(as.character(fields[iteration,]$`Harvest Date`), "23:00:00"), tz = "GMT"),
+                      by="hour")
+  temp_df <- as.data.frame(dates_to_get) %>%
+    dplyr::rename(date=dates_to_get) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(temp_k = get_temp_from_date_cdat(date, c_id, in_x, in_y)) %>%
+    dplyr::mutate(temp_f = 1.8*(temp_k-273.15)+32) %>%
+    tidyr::separate(date, sep = " ", into = c("date", "time")) %>%
+    dplyr::rename(temp_f = 4) %>%
+    dplyr::select(date, time, temp_f) %>%
+    tidyr::pivot_wider(names_from = time, values_from = temp_f) %>%
+    dplyr::mutate("Lat" = fields$Lat[iteration]) %>%
+    dplyr::mutate("Lon" = fields$Lon[iteration])
+  
+  temp_df <- temp_df[, c(1, 26, 27, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25)]
+  
+  return(temp_df)
+}
