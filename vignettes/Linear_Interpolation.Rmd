@@ -1,0 +1,158 @@
+---
+title: "Linear_Interpolation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Linear_Interpolation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# library(stotzgdh) # won't load 
+pacman::p_load(DT, tidyverse)
+```
+
+
+```{r li_function}
+li <- function(data){
+  # groupby field id, crop season, cropname to split each group into a dataframe.
+  group <- data %>%
+    dplyr::mutate(temp_is_na = dplyr::case_when(is.na(GDD) ~ 1,
+                                                TRUE ~ 0)) %>%
+    dplyr::group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
+    dplyr::group_split()
+  # create grouplist vector
+  grouplist = vector("list", length = length(group))
+  # loop through to each dataframe seperately to interpolate the GDD
+  for (i in 1:length(group)) {
+    temp_df <- group[[i]] %>% imputeTS::na_interpolation(group[[i]]$GDD, option = 'linear', maxgap = Inf)
+
+    grouplist[[i]] <- temp_df
+  }
+  # rbind all dataframes back into one
+  rbind_test <- do.call('rbind', grouplist)
+
+  return(rbind_test)
+}
+```
+
+
+# Prior knowledge needed
+
+* An understanding of how the package retrieves the data and how Growing Degree Hours (GDH) is calculated. 
+
+* Then how the package aggregates the GDH over a day to get Growing Degree Days. 
+
+# Why Linear Interpolation
+
+* When the Data is retrieved, NA values will exist in the data set. This means there is no temperature data for the hour. 
+
+* If there is an NA value for an hour then we set the whole day to be NA. Thus, we are *Interpolating over days* and not hours is then done.
+
+## Example of this
+
+```{r load data, message=FALSE, warning=FALSE}
+load("~/Projects/Stotz_Consulting_Class/stotzgdh/data/li_test.rda")
+DT::datatable(li_test)
+```
+
+
+* This table matches the file you will provide and the output we will send back to you. The step in between or last step in between the input and output is Linear interpolation of NA values. 
+
+```{r apply function,, message=FALSE}
+li_after <- li(li_test)
+```
+
+* It is important to note that the data set contains two groups or unique groups. Linear interpolation is done on those groups individually and then combines them back together. 
+
+* Type ?stotzgdh::li() for more information on how the function does this.
+
+### After Linear Interpolation is done
+
+* A new column entitled temp_is_na was added with a 1 identifying those columns with na values. 
+
+```{r message=FALSE, warning=FALSE}
+DT::datatable(li_after)
+```
+
+
+# Word on why Linear and not Weighted Moving Average
+
+* A test was done to determine if linear average or Weighted Moving average should be used. 
+
+* The following data was used
+
+```{r}
+load("~/Projects/Stotz_Consulting_Class/stotzgdh/data/interpolation_test_dataset.rda")
+
+DT::datatable(interpolation_test_dataset)
+```
+
+## Methodology
+
+* Used absolute value to determine the residuals. 
+
+$$
+Error = \sum abs(Truth - Predicted)
+$$
+
+## Results of Test
+
+* There are 30 NA values in this dataset across the 10 different lat and long pairs
+
+```{r test results}
+###########
+# Testing results to the truth 
+###########
+
+errors <- interpolation_test_dataset %>% 
+  filter(is.na(GDD_alfalfa)) %>% 
+  # select(-c(date, Lat, Long, is_na)) %>% 
+  mutate(ma_errors = abs(GDD_alfalfa_answer - na_ma_method)
+         , linear_errors = abs(GDD_alfalfa_answer - na_interpolation_method))
+
+# sum 
+ma_error_sum <- sum(errors$ma_errors)
+linear_error_sum <- sum(errors$linear_errors)
+
+# sum - group by 
+ma_error_sum_02 <- errors %>% 
+  group_by(Lat, Long) %>% 
+  summarise(ma_error_sum = sum(ma_errors)
+            , linear_error_sum = sum(linear_errors))
+
+DT::datatable(ma_error_sum_02)
+```
+
+
+### Sum of results
+
+
+```{r sum of results, message=FALSE}
+# final results in dataset
+df <- data.frame(Moving_Average = c(ma_error_sum)
+                 , Linear_Average = c(linear_error_sum))
+
+
+DT::datatable(df)
+```
+
+
+
+## Conclusion
+
+* Test was done over days. 
+
+* 5 out of 10 locations the linear approach to interpolation is more accurate.
+
+* Overall, the sum of absolute errors was lower for Linear interpolation. 
+
+* Therefore, we believe using linear interpolation approach compared to a moving average is best.
