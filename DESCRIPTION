@@ -4,7 +4,7 @@ Title: Pulls weather data and calculates GDH
 Version: 0.0.0.9000
 Authors@R: 
     c(person("J.", "Hathway", role = c("aut", "cre"), email = "hathwayj@byui.edu", comment = c(ORCID = "0000-0002-1574-0832")),
-      person("Mike", "Min", role = c("aut"),comment = c("package function")),
+      person("Mike", "Min", role = c("aut"),comment = c("package functions")),
       person("Jackson", "Merchen", role = c("aut"), comment = c("package functions")),
       person("Matthew", "Goodsell", role = c("aut"), comment = c("package structure and linear interpolation function"))
     )
@@ -25,3 +25,7 @@ Imports:
   lubridate
 Depends: 
     R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
