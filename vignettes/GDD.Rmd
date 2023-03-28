@@ -68,6 +68,12 @@ gdh <- function(..., crop, crop_data) {
   4. For GDD, sum each GDH heat units taken to find the total amount of heat absorbed by the plant
 * There are other methods for calculating GDD, but the current method works best for the data pulled from the data base.
 
+## Formula 
+
+$$
+\text{GDD} = \sum{} 
+$$
+
 # The Fucnction `gdh()`
 
 * The `gdh()` function calculates the GDH for each of the hourly temperatures found within the temperature file and then returns the GDD for each of the days given in the original file.
