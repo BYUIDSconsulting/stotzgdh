@@ -159,6 +159,13 @@ read_grid_from_url <- function(hrrr_url){
   raw_chunk_data <- readBin(file(tf,"rb"), "raw", file.info(tf)$size)
   unlink(tf)
   return(
+    # https://numcodecs.readthedocs.io/en/stable/blosc.html
+    # reshape https://numpy.org/doc/stable/reference/generated/numpy.reshape.html
+      # first argument an array, second is newshape so c(150L, 150L)
+    # frombuffer
+      # dtype = '<f2' means the data type is a float16
+      # https://www.tutorialsandyou.com/python/numpy-data-types-66.html
+    # we need to decompress and then reshape into a 150 by 150 grid
     np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
   )
 }
@@ -347,18 +354,18 @@ get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_x, in_chunk_y){
 
 #' Title
 #'
-#' @param fields 
-#' @param c_id 
-#' @param in_x 
-#' @param in_y 
-#' @param iteration 
+#' @param fields
+#' @param c_id
+#' @param in_x
+#' @param in_y
+#' @param iteration
 #'
 #' @return
 #' @export
 #'
 #' @examples
 get_temp_from_date_range_cdat <- function(fields, c_id, in_x, in_y, iteration){
-  dates_to_get <- seq(as.POSIXct(paste(as.character(fields[iteration,]$`Seeding Date`), "00:00:00"), tz = "GMT"), 
+  dates_to_get <- seq(as.POSIXct(paste(as.character(fields[iteration,]$`Seeding Date`), "00:00:00"), tz = "GMT"),
                       as.POSIXct(paste(as.character(fields[iteration,]$`Harvest Date`), "23:00:00"), tz = "GMT"),
                       by="hour")
   temp_df <- as.data.frame(dates_to_get) %>%
@@ -372,8 +379,8 @@ get_temp_from_date_range_cdat <- function(fields, c_id, in_x, in_y, iteration){
     tidyr::pivot_wider(names_from = time, values_from = temp_f) %>%
     dplyr::mutate("Lat" = fields$Lat[iteration]) %>%
     dplyr::mutate("Lon" = fields$Lon[iteration])
-  
+
   temp_df <- temp_df[, c(1, 26, 27, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25)]
-  
+
   return(temp_df)
 }
