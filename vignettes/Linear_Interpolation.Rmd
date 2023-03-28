@@ -67,7 +67,7 @@ DT::datatable(li_test)
 
 * This table matches the file you will provide and the output we will send back to you. The step in between or last step in between the input and output is Linear interpolation of NA values. 
 
-```{r apply function,, message=FALSE}
+```{r apply function, message=FALSE}
 li_after <- li(li_test)
 ```
 
