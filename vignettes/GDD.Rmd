@@ -40,9 +40,43 @@ gdh <- function(..., crop, crop_data) {
 }
 ```
 
-## Prior Knowledge Needed
+# Prior Knowledge Needed
 
-* Understanding of threshold temperatures for crops (high and low)
+* Ability to understand and load files in R
 * Basic Algebra
 
-# 
+# What is GDD and GDH
+
+* GDD (Growing Degree Days) is the measurement of heat units that a plant has absorbed throughout a day. 
+* GDH (Growing Degree Hours) is the same measurement as GDD except it measures it by hour than by day.
+
+## Why calculate GDD/GDH
+
+* Measuring GDD or GDH can help track the developmental cycle of most crops. 
+
+## How is GDD/GDH calulated
+
+* For each plant, there is a threshold temperature by which a plant needs in order to start absorbing heat.
+* Plants also have a maximum temperature at which the plant cannot absorb anymore heat.
+* The steps are listed below:
+  1. For GDH, take the temperature listed at the hour
+  2. Compare the temperature to the plant's high and low thresholds
+    - If the temperature is below the high and above low, keep the temperature
+    - If the temperature is above the high threshold, keep the high threshold temperature
+    - If the temperature is below the low threshold, keep the low threshold temperature
+  3. Take the keep temperature and subtract it by the low threshold temperature
+  4. For GDD, sum each GDH heat units taken to find the total amount of heat absorbed by the plant
+* There are other methods for calculating GDD, but the current method works best for the data pulled from the data base.
+
+# The Fucnction `gdh()`
+
+* The `gdh()` function calculates the GDH for each of the hourly temperatures found within the temperature file and then returns the GDD for each of the days given in the original file.
+
+## What is required to run the GDH function in `stotzgdh` 
+
+* temperature by hours - this is taken from the HRRR data
+* crop threshold temperature file - this is taken from file `crop_base_temp.rda` found in the package
+* crop name - this is taken from both the file imputed by the user earlier and `crop_base_temp.rda`
+  - if the crop names in the imputed file does not match any of the crops found in `crop_base_temp.rda`, the package  will prompt the user to match the crop names not found in `crop_base_temp.rda` by showing the crop name that is not found and examples of crops that can be used and asks the user to correct thier imputed file. 
+
+## Example
