@@ -1,0 +1,44 @@
+---
+title: "Data Retrivial Process"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Retrivial Process}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(stotzgdh)
+```
+
+
+# Website
+
+where we get the data from 
+
+# Areas of focus
+
+show map of chunk id's 
+
+# How we retrieve it
+
+- show url where the data is
+
+- what it looks like 
+
+- our process 
+
+- the csv provided 
+
+- 
+
+
+
+
