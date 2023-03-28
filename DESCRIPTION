@@ -20,9 +20,23 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 LazyData: true
 Imports: 
-  googledrive, 
   tidyverse,
-  lubridate
+  lubridate,
+  here, 
+  DBI, 
+  odbc, 
+  spatialrisk, 
+  measurements,
+  readxl,
+  sf,
+  raster,
+  ncdf4,
+  reticulate,
+  stringi,
+  furrr,
+  purrr,
+  data.table,
+  imputeTS,
 Depends: 
     R (>= 2.10)
 Suggests: 
