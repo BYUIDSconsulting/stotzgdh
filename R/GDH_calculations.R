@@ -29,7 +29,7 @@ gdh <- function(..., crop, crop_data) {
     # Replace values exceeding the threshold with the threshold value
     values <- pmax(pmin(..., threshold)-base_temp, 0)
     # Take the sum of the values, hence summing 24 GDH values into a GDD value
-    return(sum(values))
+    return(sum(values)/base_temp)
   }
 }
 

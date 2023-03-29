@@ -346,7 +346,7 @@ get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_x, in_chunk_y){
   temp_grid <- cdat %>%
     dplyr::filter(Var1 == gdh_date, Var2 == chunk_id)
 
-  temp_grid_temp <- tryCatch(temp_grid[[4]][[1]][in_chunk_x, in_chunk_y], error=function(err) NA)
+  temp_grid_temp <- tryCatch(temp_grid[[4]][[1]][in_chunk_y,in_chunk_x], error=function(err) NA)
 
   return(temp_grid_temp[[1]])
 }
