@@ -1,3 +1,7 @@
+#######################################
+# For all functions related to Data Retrieval
+#######################################
+
 #' Gets MetaData on chunks from URL
 #'
 #' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
@@ -39,8 +43,8 @@ load_index_data <- function(){
 #'
 #' @description Utilized in the purrr function. get_chunk_info ...
 #'
-#' @param lat
-#' @param lon
+#' @param lat numeric
+#' @param lon numeric
 #' @param nc_data Generated from the load_index_data
 #'
 #' @return Vector containing chunk id, y and x
@@ -125,7 +129,7 @@ get_url <- function(gdh_date, chunk_id){
 #'
 #' @param hrrr_url a character
 #'
-#' @return ? - does it return a a dataframe?
+#' @return 150 x 150 dataframe
 #' @export
 #'
 #' @examples
@@ -166,7 +170,15 @@ read_grid_from_url <- function(hrrr_url){
       # dtype = '<f2' means the data type is a float16
       # https://www.tutorialsandyou.com/python/numpy-data-types-66.html
     # we need to decompress and then reshape into a 150 by 150 grid
-    np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
+
+    # https://community.rstudio.com/t/download-a-gzipped-file-and-decompress-it/15809/4
+      # use gunzip()
+    # https://stackoverflow.com/questions/53375385/r-and-pandas-r-equivalent-of-np-sum-and-np-reshape
+      # use matrix to reshape
+    # L specifics an integer class for the 150 rather than a numeric or (double)
+    matrix( gunzip(raw_chunk_data), nrow= 150L, ncol= 150L )
+
+    #np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
   )
 }
 
@@ -202,12 +214,12 @@ convert_list_col <- function(data_to_concat, data, name_col){
 
 
 
-# This is to get the ability to get all of the chunk_ids at one go
+
 #' Title
 #'
-#' @description Calls the get_chunk_info and
+#' @description Calls the get_chunk_info and allows for parallization of the function. Has the ability to get all of the chunk_ids at one go.
 #'
-#' @param la a Numeric value
+#' @param la Numeric value
 #' @param lo Numeric Value
 #'
 #' @return Vector containing chunk id, y and x
@@ -239,7 +251,6 @@ purrf <- function(la, lo) {
 #' @export
 #'
 #' @examples
-#' //Q - what is x?
 get_chunks <- function(x, max_date, min_date, rows = NULL) {
   dates_to_get <- seq(
     as.POSIXct(min_date, tz="GMT"),
