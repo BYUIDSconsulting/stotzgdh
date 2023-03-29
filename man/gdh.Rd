@@ -2,12 +2,12 @@
 % Please edit documentation in R/GDH_calculations.R
 \name{gdh}
 \alias{gdh}
-\title{Calculates the Growing Degree Hours and Summing Them to Get the Growing Degree Days}
+\title{Calculates the Growing Degree Hours and Summing them to Get the Growing Degree Days}
 \usage{
 gdh(..., crop, crop_data)
 }
 \arguments{
-\item{...}{The 24 hour temperature info}
+\item{...}{Dataframe of the 24 hour temperature info}
 
 \item{crop}{The name of the crop}
 

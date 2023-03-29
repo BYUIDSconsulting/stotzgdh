@@ -7,7 +7,7 @@
 purrf(la, lo)
 }
 \arguments{
-\item{la}{a Numeric value}
+\item{la}{Numeric value}
 
 \item{lo}{Numeric Value}
 }
@@ -15,5 +15,5 @@ purrf(la, lo)
 Vector containing chunk id, y and x
 }
 \description{
-Calls the get_chunk_info and
+Calls the get_chunk_info and allows for parallization of the function. Has the ability to get all of the chunk_ids at one go.
 }

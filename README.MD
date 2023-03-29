@@ -1,5 +1,5 @@
 ## Stotz GDH
-This package was made possible in part due to the data made available by ... and was written by students from the Brigham Young University - Idaho Data Science program.
+This package was made possible in part due to the data made available by NOAA High-Resolution Rapid Refresh (HRRR) Model found here https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. The package was written by students from the Brigham Young University - Idaho Data Science program.
 
 
 #### Dependecies 
@@ -20,7 +20,7 @@ read_grid_from_url function relies on these python packages.
 install.packages("stotzgdh")
 
 ```
-devtools::install_github("https://github.com/BYUIDSconsulting/stotzgdh"")
+devtools::install_github("https://github.com/BYUIDSconsulting/stotzgdh")
 ```
 
 
