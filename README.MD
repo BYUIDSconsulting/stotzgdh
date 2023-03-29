@@ -2,7 +2,7 @@
 This package was made possible in part due to the data made available by NOAA High-Resolution Rapid Refresh (HRRR) Model found here https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. The package was written by students from the Brigham Young University - Idaho Data Science program.
 
 
-#### Dependecies 
+#### Dependecies
 
 install python, if it is not already installed. 
 
@@ -17,7 +17,6 @@ read_grid_from_url function relies on these python packages.
 
 #### Installation Instructions
 
-install.packages("stotzgdh")
 
 ```
 devtools::install_github("https://github.com/BYUIDSconsulting/stotzgdh")

@@ -37,7 +37,7 @@ Imports:
   purrr,
   data.table,
   imputeTS,
-  utils
+  R.utils
 Depends: 
     R (>= 2.10)
 Suggests: 
