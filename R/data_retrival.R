@@ -141,8 +141,8 @@ get_url <- function(gdh_date, chunk_id){
 #' data_grid <- read_grid_from_url(hrrr_url)
 read_grid_from_url <- function(hrrr_url){
   #//Q - can we reduce two line below to one or
-  #np <- reticulate::import("numpy")
-  #ncd <- reticulate::import("numcodecs")
+  np <- reticulate::import("numpy")
+  ncd <- reticulate::import("numcodecs")
   tf <- tempfile()
   return_flag <- FALSE
   tryCatch(
@@ -176,9 +176,9 @@ read_grid_from_url <- function(hrrr_url){
     # https://stackoverflow.com/questions/53375385/r-and-pandas-r-equivalent-of-np-sum-and-np-reshape
       # use matrix to reshape
     # L specifics an integer class for the 150 rather than a numeric or (double)
-    matrix( R.utils::gunzip(raw_chunk_data), nrow= 150L, ncol= 150L )
+    # matrix( R.utils::gunzip(raw_chunk_data), nrow= 150L, ncol= 150L )
 
-    #np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
+    np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
   )
 }
 
