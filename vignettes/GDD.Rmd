@@ -34,8 +34,11 @@ gdh <- function(..., crop, crop_data) {
     # Replace negative values with zero using pmax()
     # Replace values exceeding the threshold with the threshold value
     values <- pmax(pmin(..., threshold)-base_temp, 0)
-    # Take the sum of the values, hence summing 24 GDH values into a GDD value
-    return(sum(values))
+    # Take the sum of the values, divide by 24, then subtract by the base temp value
+    # Replace negative values with zero using pmax()
+    GDD <- pmax((sum(values)/24)-base_temp,0)
+    # Return GDD Value
+    return(GDD)
   }
 }
 ```
@@ -65,7 +68,7 @@ gdh <- function(..., crop, crop_data) {
     - If the temperature is above the high threshold, keep the high threshold temperature
     - If the temperature is below the low threshold, keep the low threshold temperature
   3. Take the keep temperature and subtract it by the low threshold temperature
-  4. For GDD, sum each GDH heat units taken to find the total amount of heat absorbed by the plant
+  4. For GDD, sum each GDH calculated during the day, divide that number by 24, and then subtract the low threshold temperature
 * There are other methods for calculating GDD, but the current method works best for the data pulled from the data base.
 
 ## Formula 
@@ -83,6 +86,6 @@ $$
 * temperature by hours - this is taken from the HRRR data
 * crop threshold temperature file - this is taken from file `crop_base_temp.rda` found in the package
 * crop name - this is taken from both the file imputed by the user earlier and `crop_base_temp.rda`
-  - if the crop names in the imputed file does not match any of the crops found in `crop_base_temp.rda`, the package  will prompt the user to match the crop names not found in `crop_base_temp.rda` by showing the crop name that is not found and examples of crops that can be used and asks the user to correct thier imputed file. 
+  - if the crop names in the imputed file does not match any of the crops found in `crop_base_temp.rda`, the package  will prompt the user to match the crop names not found in `crop_base_temp.rda` by showing the crop name that is not found and examples of crops that can be used and asks the user to correct their imputed file. 
 
 ## Example
