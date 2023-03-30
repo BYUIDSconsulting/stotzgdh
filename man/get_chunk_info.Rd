@@ -7,6 +7,10 @@
 get_chunk_info(lat, lon, nc_data)
 }
 \arguments{
+\item{lat}{numeric}
+
+\item{lon}{numeric}
+
 \item{nc_data}{Generated from the load_index_data}
 }
 \value{

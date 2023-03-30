@@ -2,13 +2,22 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_temp_from_date_cdat}
 \alias{get_temp_from_date_cdat}
-\title{Title}
+\title{Getting Temperature by Date}
 \usage{
-get_temp_from_date_cdat(gdh_date, chunk_id, in_chunk_x, in_chunk_y)
+get_temp_from_date_cdat(gdh_date, chunk_id, in_chunk_cols, in_chunk_rows)
 }
 \arguments{
-\item{in_chunk_y}{}
+\item{gdh_date}{Character}
+
+\item{chunk_id}{Character}
+
+\item{in_chunk_x}{Integer}
+
+\item{in_chunk_y}{Integer}
+}
+\value{
+Returns Kelvin temperature from the associated chunk ID
 }
 \description{
-Title
+Inputs date, chunk id, and associated latitude and longitude of the chunk. It then grabs the temperature in Kelvin for that associated input.
 }

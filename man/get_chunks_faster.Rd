@@ -7,6 +7,8 @@
 get_chunks_faster(x, max_date, min_date, rows = NULL)
 }
 \arguments{
+\item{x}{A Character chunk ID}
+
 \item{max_date}{A Character}
 
 \item{min_date}{A Character}

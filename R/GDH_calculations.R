@@ -1,13 +1,13 @@
+#######################################
 # For all functions related to GDH (Growth Degree Hour) calculations
+#######################################
 
 
-
-#' Calculates the Growing Degree Hours and Summing Them to Get the Growing Degree Days
+#' Calculates the Growing Degree Hours and Summing them to Get the Growing Degree Days
 #'
-#' @description
-#' Gets the summation of the growing degree hours for a specific crop.
+#' @description Gets the summation of the growing degree hours for a specific crop.
 #'
-#' @param ... The 24 hour temperature info
+#' @param ... Dataframe of the 24 hour temperature info
 #' @param crop The name of the crop
 #' @param crop_data The specific growing degree range. So the Minimum and Maximum degrees. Mike-edit: The file should contain base temperature and upper threshold temperature of each crop in F
 #'
@@ -29,7 +29,7 @@ gdh <- function(..., crop, crop_data) {
     # Replace values exceeding the threshold with the threshold value
     values <- pmax(pmin(..., threshold)-base_temp, 0)
     # Take the sum of the values, hence summing 24 GDH values into a GDD value
-    return(sum(values))
+    return(sum(values)/base_temp)
   }
 }
 
@@ -82,7 +82,21 @@ li <- function(data){
 }
 
 
-# create function to get the total count of na values
+
+
+#' Percent of days with NA for temperature
+#'
+#' @param data
+#'
+#' @return Statement with the percent of days that contain na values for temperature
+#' @export
+#'
+#' @examples
+#'
+#' View(li_test)
+#'
+#' li_na_count(li_test)
+#'
 li_na_count <- function(data) {
   # filter dataset down to na value
   na_dat <- data %>%

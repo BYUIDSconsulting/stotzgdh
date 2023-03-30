@@ -7,6 +7,8 @@
 get_chunks(x, max_date, min_date, rows = NULL)
 }
 \arguments{
+\item{x}{A Character}
+
 \item{max_date}{A character}
 
 \item{min_date}{A Character}
@@ -17,7 +19,4 @@ get_chunks(x, max_date, min_date, rows = NULL)
 Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
 If rows are not null, it Utilizes purrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
 and converts to a tibble inside a dataframe.
-}
-\examples{
-//Q - what is x?
 }

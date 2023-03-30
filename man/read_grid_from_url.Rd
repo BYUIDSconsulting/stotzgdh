@@ -7,10 +7,10 @@
 read_grid_from_url(hrrr_url)
 }
 \arguments{
-\item{hrrr_url}{a character}
+\item{hrrr_url}{Character}
 }
 \value{
-? - does it return a a dataframe?
+150 x 150 dataframe
 }
 \description{
 If file doesn't exist it will set the temperature, in Kelvin (Temperature returned), to a na value. The
