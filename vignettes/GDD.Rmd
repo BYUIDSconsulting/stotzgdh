@@ -34,9 +34,9 @@ gdh <- function(..., crop, crop_data) {
     # Replace negative values with zero using pmax()
     # Replace values exceeding the threshold with the threshold value
     values <- pmax(pmin(..., threshold)-base_temp, 0)
-    # Take the sum of the values, divide by 24, then subtract by the base temp value
+    # Take the sum of the values and divide by the base temp
     # Replace negative values with zero using pmax()
-    GDD <- pmax((sum(values)/24)-base_temp,0)
+    GDD <- sum(values)/base_temp
     # Return GDD Value
     return(GDD)
   }
@@ -68,13 +68,13 @@ gdh <- function(..., crop, crop_data) {
     - If the temperature is above the high threshold, keep the high threshold temperature
     - If the temperature is below the low threshold, keep the low threshold temperature
   3. Take the keep temperature and subtract it by the low threshold temperature
-  4. For GDD, sum each GDH calculated during the day, divide that number by 24, and then subtract the low threshold temperature
+  4. For GDD, sum all the GDH calculations and then divide by the low temperature threshold.
 * There are other methods for calculating GDD, but the current method works best for the data pulled from the data base.
 
 ## Formula 
 
 $$
-\text{GDD} = \sum{} 
+\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperatre}} 
 $$
 
 # The Fucnction `gdh()`
