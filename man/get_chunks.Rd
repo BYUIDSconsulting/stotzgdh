@@ -7,6 +7,8 @@
 get_chunks(x, max_date, min_date, rows = NULL)
 }
 \arguments{
+\item{x}{A Character}
+
 \item{max_date}{A character}
 
 \item{min_date}{A Character}

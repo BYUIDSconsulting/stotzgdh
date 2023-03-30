@@ -127,7 +127,7 @@ get_url <- function(gdh_date, chunk_id){
 #'  input of the function comes from the get_url function, but can get specified manually. See description for get_url to
 #'  know url.
 #'
-#' @param hrrr_url a character
+#' @param hrrr_url Character
 #'
 #' @return 150 x 150 dataframe
 #' @export
@@ -177,39 +177,15 @@ read_grid_from_url <- function(hrrr_url){
       # use matrix to reshape
     # L specifics an integer class for the 150 rather than a numeric or (double)
     # matrix( R.utils::gunzip(raw_chunk_data), nrow= 150L, ncol= 150L )
+    #
+    # Resutling error with above code:
+    # Error in file.exists(filename) : invalid 'file' argument
+    # In addition: Warning message:
+    #   In for (i in seq_len(n)) { :
+    #       closing unused connection 3 (C:\Users\matth\AppData\Local\Temp\Rtmpum4PQQ\file3f3418b844e5)
 
     np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
   )
-}
-
-
-
-
-
-#' Convert a dataframe within a dataframe to columns
-#'
-#' @description Will work with different lengths of columns
-#'
-#' @param data_to_concat
-#' @param data
-#' @param name_col
-#'
-#' @return A DataFrame
-#' @export
-#'
-#' @examples
-convert_list_col <- function(data_to_concat, data, name_col){
-  range <- 1:nrow(data)
-
-  new_ft <- data.frame()
-
-  for (val in range){
-    temp_frame <- data.frame(t(do.call(data.frame, dt[val])))
-    new_ft <- rbind.fill(new_ft, temp_frame)
-  }
-
-  new_ft <- cbind(data_to_concat, new_ft)
-  return(new_ft)
 }
 
 
@@ -219,8 +195,8 @@ convert_list_col <- function(data_to_concat, data, name_col){
 #'
 #' @description Calls the get_chunk_info and allows for parallization of the function. Has the ability to get all of the chunk_ids at one go.
 #'
-#' @param la Numeric value
-#' @param lo Numeric Value
+#' @param la Numeric
+#' @param lo Numeric
 #'
 #' @return Vector containing chunk id, y and x
 #' @export
@@ -242,7 +218,7 @@ purrf <- function(la, lo) {
 #'  and converts to a tibble inside a dataframe.
 #'
 #'
-#' @param x
+#' @param x A Character
 #' @param max_date A character
 #' @param min_date A Character
 #' @param rows defaults to null
@@ -278,7 +254,7 @@ get_chunks <- function(x, max_date, min_date, rows = NULL) {
 #'  If rows are not null, it Utilizes furrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
 #'  and converts to a tibble inside a dataframe.
 #'
-#' @param x
+#' @param x A Character chunk ID
 #' @param max_date A Character
 #' @param min_date A Character
 #' @param rows Defaults to null
@@ -339,39 +315,44 @@ match_combine_data <- function(fields_chunk_info, cdat){
 
 
 
-#' Title
+#' Getting Temperature by Date
 #'
-#' @description
+#' @description Inputs date, chunk id, and associated latitude and longitude of the chunk. It then grabs the temperature in Kelvin for that associated input.
 #'
-#' @param gdh_date
-#' @param chunk_id
-#' @param in_chunk_x
-#' @param in_chunk_y
+#' @param gdh_date Character
+#' @param chunk_id Character
+#' @param in_chunk_x Integer
+#' @param in_chunk_y Integer
 #'
-#' @return
+#' @return Returns Kelvin temperature from the associated chunk ID
 #' @export
 #'
 #' @examples
-get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_x, in_chunk_y){
+get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_cols, in_chunk_rows){
 
   temp_grid <- cdat %>%
     dplyr::filter(Var1 == gdh_date, Var2 == chunk_id)
 
-  temp_grid_temp <- tryCatch(temp_grid[[4]][[1]][in_chunk_y,in_chunk_x], error=function(err) NA)
+  temp_grid_temp <- tryCatch(temp_grid[[4]][[1]][in_chunk_rows,in_chunk_cols], error=function(err) NA)
 
   return(temp_grid_temp[[1]])
 }
 
 
-#' Title
+
+
+#' Getting Temperature in Date Range
 #'
-#' @param fields
-#' @param c_id
-#' @param in_x
-#' @param in_y
-#' @param iteration
+#' @description Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID and Latitude and Longitude of the
+#'  field passed in. It then converts from Kelvin to Fahrenheit and pivots wider to return a dataframe where each row is the temperature for day and its associated chunk id, latitude and longitude.
 #'
-#' @return
+#' @param fields DataFrame
+#' @param c_id Character
+#' @param in_x Integer
+#' @param in_y Integer
+#' @param iteration Integer (position tracking)
+#'
+#' @return Returns temperature by hour of full day over specified range of time.
 #' @export
 #'
 #' @examples

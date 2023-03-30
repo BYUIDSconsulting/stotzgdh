@@ -7,7 +7,7 @@
 read_grid_from_url(hrrr_url)
 }
 \arguments{
-\item{hrrr_url}{a character}
+\item{hrrr_url}{Character}
 }
 \value{
 150 x 150 dataframe

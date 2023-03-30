@@ -7,9 +7,9 @@
 purrf(la, lo)
 }
 \arguments{
-\item{la}{Numeric value}
+\item{la}{Numeric}
 
-\item{lo}{Numeric Value}
+\item{lo}{Numeric}
 }
 \value{
 Vector containing chunk id, y and x

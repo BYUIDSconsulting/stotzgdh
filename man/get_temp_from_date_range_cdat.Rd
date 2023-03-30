@@ -2,13 +2,25 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_temp_from_date_range_cdat}
 \alias{get_temp_from_date_range_cdat}
-\title{Title}
+\title{Getting Temperature in Date Range}
 \usage{
 get_temp_from_date_range_cdat(fields, c_id, in_x, in_y, iteration)
 }
 \arguments{
-\item{iteration}{}
+\item{fields}{DataFrame}
+
+\item{c_id}{Character}
+
+\item{in_x}{Integer}
+
+\item{in_y}{Integer}
+
+\item{iteration}{Integer (position tracking)}
+}
+\value{
+Returns temperature by hour of full day over specified range of time.
 }
 \description{
-Title
+Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID and Latitude and Longitude of the
+field passed in. It then converts from Kelvin to Fahrenheit and pivots wider to return a dataframe where each row is the temperature for day and its associated chunk id, latitude and longitude.
 }
