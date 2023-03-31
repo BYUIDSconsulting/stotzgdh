@@ -4,7 +4,7 @@ This package was made possible in part due to the data made available by NOAA Hi
 
 #### Dependecies
 
-Two python packages:
+Two python packages are needed for a function to work properly:
 
 - numpy
 - numcodecs
@@ -23,15 +23,13 @@ If already installed:
   ```
   python --version
   ```
+  - You can chose to upgrade if needed
 
 ##### Package Installation
 
 Install Anaconda on your computer here https://docs.anaconda.com/anaconda/install/index.html
 
-In anaconda you will want to make sure you have 
-
-- numpy and numcodecs installed
-
+In anaconda you will want to make sure you have numpy and numcodecs installed. If they are not you can install them in anaconda.
 
 
 #### Stotzgdh package Installation
