@@ -4,18 +4,37 @@ This package was made possible in part due to the data made available by NOAA Hi
 
 #### Dependecies
 
-install python, if it is not already installed. 
+Two python packages:
 
-To check what version you have installed, type "python --version" in your terminal
+- numpy
+- numcodecs
 
-https://www.python.org/downloads/
+##### Python Installation
 
-pip install numpy and numcodecs
+If python is not installed:
 
-read_grid_from_url function relies on these python packages.
+- Go to this website to install: https://www.python.org/downloads/
+
+If already installed:
+
+- check what version you have through the terminal. 
+  - Go to the command prompt
+  - Type 
+  ```
+  python --version
+  ```
+
+##### Package Installation
+
+Install Anaconda on your computer here https://docs.anaconda.com/anaconda/install/index.html
+
+In anaconda you will want to make sure you have 
+
+- numpy and numcodecs installed
 
 
-#### Installation Instructions
+
+#### Stotzgdh package Installation
 
 
 ```
