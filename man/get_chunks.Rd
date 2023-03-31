@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_chunks}
 \alias{get_chunks}
-\title{Title}
+\title{Get Temperature data by Chunk}
 \usage{
 get_chunks(x, max_date, min_date, rows = NULL)
 }
@@ -15,8 +15,11 @@ get_chunks(x, max_date, min_date, rows = NULL)
 
 \item{rows}{defaults to null}
 }
+\value{
+A dataframe with nested tibble
+}
 \description{
 Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
 If rows are not null, it Utilizes purrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
-and converts to a tibble inside a dataframe.
+and converts to a tibble inside a dataframe. It does this over the specified date range.
 }

@@ -21,6 +21,6 @@ get_temp_from_date_range_cdat(fields, c_id, in_x, in_y, iteration)
 Returns temperature by hour of full day over specified range of time.
 }
 \description{
-Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID and Latitude and Longitude of the
+Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID, Latitude and Longitude of the
 field passed in. It then converts from Kelvin to Fahrenheit and pivots wider to return a dataframe where each row is the temperature for day and its associated chunk id, latitude and longitude.
 }

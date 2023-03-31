@@ -78,7 +78,7 @@ $$
 $$
 
 $$
-\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperatre}} 
+\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} 
 $$
 
 # The Fucnction `gdh()`

@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{get_chunks_faster}
 \alias{get_chunks_faster}
-\title{Title}
+\title{Get Temperature data by Chunk}
 \usage{
 get_chunks_faster(x, max_date, min_date, rows = NULL)
 }

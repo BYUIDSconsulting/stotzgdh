@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{purrf}
 \alias{purrf}
-\title{Title}
+\title{Utilizes parallel programming}
 \usage{
 purrf(la, lo)
 }
@@ -15,5 +15,6 @@ purrf(la, lo)
 Vector containing chunk id, y and x
 }
 \description{
-Calls the get_chunk_info and allows for parallization of the function. Has the ability to get all of the chunk_ids at one go.
+Calls the get_chunk_info and allows for parallel programming of the function so it gets all metadata of the specified chunk which
+is a 150 by 150 grid.
 }

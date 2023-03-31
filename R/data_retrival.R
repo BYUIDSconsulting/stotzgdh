@@ -2,7 +2,7 @@
 # For all functions related to Data Retrieval
 #######################################
 
-#' Gets MetaData on chunks from URL
+#' Gets Metadata on chunks from HRRR URL
 #'
 #' @description Data is pulled from https://aws.amazon.com/marketplace/pp/prodview-yd5ydptv3vuz2#resources. From this url,
 #'  "The HRRR is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model,
@@ -15,22 +15,11 @@
 #' @examples
 #' # Download HRRR grid metadata to get chunk_id and x and y for coordinates
 #' nc_data <- load_index_data()
-#' # Set coordinates of farm field
-#' farm_coords <- c(43.854, -111.776)
-#' # Get chunk coordinates for farm field
-#' chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
-#' chunk_id <- chunk_info[1]
-#' in_chunk_x <- as.numeric(chunk_info[2])
-#' in_chunk_y <- as.numeric(chunk_info[3])
 load_index_data <- function(){
-  # base r
   tf <- tempfile()
   chunk_index_url <- "https://hrrrzarr.s3.amazonaws.com/grid/HRRR_chunk_index.h5"
-  # utils package is loaded with R
   utils::download.file(chunk_index_url, tf, mode="wb")
-  # //? not sure if this is correct package nc_open is from
   nc_data <- ncdf4::nc_open(tf)
-  # base r
   unlink(tf)
   return(nc_data)
 }
@@ -41,7 +30,7 @@ load_index_data <- function(){
 
 #' Getting specified field's metadata
 #'
-#' @description Utilized in the purrr function. get_chunk_info ...
+#' @description Utilized in the purrr function. This function will return metadata for a latitude and longitude in the specific chunk.
 #'
 #' @param lat numeric
 #' @param lon numeric
@@ -58,25 +47,23 @@ load_index_data <- function(){
 #' # Get chunk coordinates for farm field
 #' chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
 #' chunk_id <- chunk_info[1]
-#' in_chunk_x <- as.numeric(chunk_info[2])
-#' in_chunk_y <- as.numeric(chunk_info[3])
+#' in_chunk_row <- chunk_info[2]
+#' in_chunk_col <- chunk_info[3]
 get_chunk_info <- function(lat, lon, nc_data){
   coords <- c(lon, lat)
   my_point_sfc <- sf::st_sfc(sf::st_point(coords), crs=4326)
-  # what does hrrr_proj do?
   hrrr_proj = "+proj=lcc +lat_1=38.5 +lon_1=38.5 +lon_0=262.5 +lat_0=38.5 +R=6371229"
   my_point_sfc_t <- sf::st_transform(my_point_sfc, hrrr_proj)
   my_point_t <- as.vector(as.data.frame(my_point_sfc_t)$geometry[[1]])
   x_t <- my_point_t[1]
   y_t <- my_point_t[2]
-  # which.min base r
   x <- which.min( abs(nc_data$dim$x$vals - x_t) )
   y <- which.min( abs(nc_data$dim$y$vals - y_t) )
   chunk_id <- ncdf4::ncvar_get(nc_data, "chunk_id")[x,y]
   chunk_id_fixed <- stringi::stri_reverse(chunk_id)
-  in_chunk_x <- ncdf4::ncvar_get(nc_data, "in_chunk_x")[x]
-  in_chunk_y <- ncdf4::ncvar_get(nc_data, "in_chunk_y")[y]
-  return(c(chunk_id_fixed, as.numeric(in_chunk_y), as.numeric(in_chunk_x)))
+  in_chunk_row <- ncdf4::ncvar_get(nc_data, "in_chunk_x")[x]
+  in_chunk_col <- ncdf4::ncvar_get(nc_data, "in_chunk_y")[y]
+  return(c(chunk_id_fixed, as.numeric(in_chunk_col), as.numeric(in_chunk_row)))
 }
 
 
@@ -110,7 +97,6 @@ get_chunk_info <- function(lat, lon, nc_data){
 #'     as.POSIXct("2022-06-24 15:00:00", format="%Y-%m-%d %H:%M:%S", tz="US/Mountain"),
 #'     "5.3")
 get_url <- function(gdh_date, chunk_id){
-  # uses all base r functions
   return (sprintf("https://hrrrzarr.s3.amazonaws.com/sfc/%s/%s/surface/TMP/surface/TMP/%s",
                   strftime(gdh_date, "%Y%m%d"),
                   strftime(gdh_date,"%Y%m%d_%Hz_anl.zarr"),
@@ -140,7 +126,6 @@ get_url <- function(gdh_date, chunk_id){
 #' # The URL is  "https://hrrrzarr.s3.amazonaws.com/sfc/20220624/20220624_15z_anl.zarr/surface/TMP/surface/TMP/5.3"
 #' data_grid <- read_grid_from_url(hrrr_url)
 read_grid_from_url <- function(hrrr_url){
-  #//Q - can we reduce two line below to one or
   np <- reticulate::import("numpy")
   ncd <- reticulate::import("numcodecs")
   tf <- tempfile()
@@ -163,27 +148,6 @@ read_grid_from_url <- function(hrrr_url){
   raw_chunk_data <- readBin(file(tf,"rb"), "raw", file.info(tf)$size)
   unlink(tf)
   return(
-    # https://numcodecs.readthedocs.io/en/stable/blosc.html
-    # reshape https://numpy.org/doc/stable/reference/generated/numpy.reshape.html
-      # first argument an array, second is newshape so c(150L, 150L)
-    # frombuffer
-      # dtype = '<f2' means the data type is a float16
-      # https://www.tutorialsandyou.com/python/numpy-data-types-66.html
-    # we need to decompress and then reshape into a 150 by 150 grid
-
-    # https://community.rstudio.com/t/download-a-gzipped-file-and-decompress-it/15809/4
-      # use gunzip()
-    # https://stackoverflow.com/questions/53375385/r-and-pandas-r-equivalent-of-np-sum-and-np-reshape
-      # use matrix to reshape
-    # L specifics an integer class for the 150 rather than a numeric or (double)
-    # matrix( R.utils::gunzip(raw_chunk_data), nrow= 150L, ncol= 150L )
-    #
-    # Resutling error with above code:
-    # Error in file.exists(filename) : invalid 'file' argument
-    # In addition: Warning message:
-    #   In for (i in seq_len(n)) { :
-    #       closing unused connection 3 (C:\Users\matth\AppData\Local\Temp\Rtmpum4PQQ\file3f3418b844e5)
-
     np$reshape(np$frombuffer(ncd$blosc$decompress(raw_chunk_data), dtype='<f2'), c(150L, 150L))
   )
 }
@@ -191,9 +155,10 @@ read_grid_from_url <- function(hrrr_url){
 
 
 
-#' Title
+#' Utilizes parallel programming
 #'
-#' @description Calls the get_chunk_info and allows for parallization of the function. Has the ability to get all of the chunk_ids at one go.
+#' @description Calls the get_chunk_info and allows for parallel programming of the function so it gets all metadata of the specified chunk which
+#' is a 150 by 150 grid.
 #'
 #' @param la Numeric
 #' @param lo Numeric
@@ -201,7 +166,6 @@ read_grid_from_url <- function(hrrr_url){
 #' @return Vector containing chunk id, y and x
 #' @export
 #'
-#' @examples
 purrf <- function(la, lo) {
   get_chunk_info(la, lo, nc_data = nc_data)
 }
@@ -209,13 +173,11 @@ purrf <- function(la, lo) {
 
 
 
-
-# This gets all of the data of the specified dates of chunks
-#' Title
+#' Get Temperature data by Chunk
 #'
 #' @description  Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
 #'  If rows are not null, it Utilizes purrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
-#'  and converts to a tibble inside a dataframe.
+#'  and converts to a tibble inside a dataframe. It does this over the specified date range.
 #'
 #'
 #' @param x A Character
@@ -223,10 +185,9 @@ purrf <- function(la, lo) {
 #' @param min_date A Character
 #' @param rows defaults to null
 #'
-#' @return
+#' @return A dataframe with nested tibble
 #' @export
 #'
-#' @examples
 get_chunks <- function(x, max_date, min_date, rows = NULL) {
   dates_to_get <- seq(
     as.POSIXct(min_date, tz="GMT"),
@@ -247,8 +208,7 @@ get_chunks <- function(x, max_date, min_date, rows = NULL) {
 
 
 
-# This gets all of the data of the specified dates of chunks (x being the chunk_id) using furrr::future_map
-#' Title
+#' Get Temperature data by Chunk
 #'
 #' @description Dates are converted to Mountain Standard time zone. It gets a sequence of hours from the date range and combines into a dataframe.
 #'  If rows are not null, it Utilizes furrr's parallel processing when it calls read_grid_from_url. It then takes the results from read_grid_from_url
@@ -262,7 +222,6 @@ get_chunks <- function(x, max_date, min_date, rows = NULL) {
 #' @return A dataframe with dates and tibbles of the data from the Amazon URL
 #' @export
 #'
-#' @examples
 get_chunks_faster <- function(x, max_date, min_date, rows = NULL) {
   dates_to_get <- seq(
     as.POSIXct(min_date, tz="GMT"),
@@ -283,38 +242,6 @@ get_chunks_faster <- function(x, max_date, min_date, rows = NULL) {
 
 
 
-#' Title
-#'
-#' @description takes fields chunk data and filters to seeding_date, harvest_date, chunk_id, in_chunk_x, in_chunk_y
-#'  then gets the temperature for the data by utilizing purrr's pmap function on the get_temp_from_date_range_cdat function.
-#'
-#' @param fields_chunk_info
-#' @param cdat
-#'
-#' @return a Dataframe containing temperatures by
-#' @export
-#'
-#' @examples
-match_combine_data <- function(fields_chunk_info, cdat){
-  temp_list <- purrr::pmap(
-    dplyr::select(
-      fields_chunk_info, seeding_date, harvest_date, chunk_id, in_chunk_x, in_chunk_y),
-    ~get_temp_from_date_range_cdat(cdat, ..1, ..2, ..3, ..4, ..5))
-
-
-  dt = data.table::rbindlist(
-    plyr::lapply(temp_list, function(x) data.table::data.table(t(x))),
-    fill = TRUE
-  )
-  #//Q base r
-  kk <- convert_dataframe_col(fields_chunk_info, dt, "V")
-
-  return(kk)
-}
-
-
-
-
 #' Getting Temperature by Date
 #'
 #' @description Inputs date, chunk id, and associated latitude and longitude of the chunk. It then grabs the temperature in Kelvin for that associated input.
@@ -327,7 +254,6 @@ match_combine_data <- function(fields_chunk_info, cdat){
 #' @return Returns Kelvin temperature from the associated chunk ID
 #' @export
 #'
-#' @examples
 get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_cols, in_chunk_rows){
 
   temp_grid <- cdat %>%
@@ -343,7 +269,7 @@ get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_cols, in_chunk_
 
 #' Getting Temperature in Date Range
 #'
-#' @description Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID and Latitude and Longitude of the
+#' @description Fields dataframe must have harvest date and seeding date. It gets temperature for each hour of a day for the specified chunk ID, Latitude and Longitude of the
 #'  field passed in. It then converts from Kelvin to Fahrenheit and pivots wider to return a dataframe where each row is the temperature for day and its associated chunk id, latitude and longitude.
 #'
 #' @param fields DataFrame
@@ -355,7 +281,6 @@ get_temp_from_date_cdat <- function(gdh_date, chunk_id, in_chunk_cols, in_chunk_
 #' @return Returns temperature by hour of full day over specified range of time.
 #' @export
 #'
-#' @examples
 get_temp_from_date_range_cdat <- function(fields, c_id, in_x, in_y, iteration){
   dates_to_get <- seq(as.POSIXct(paste(as.character(fields[iteration,]$`Seeding Date`), "00:00:00"), tz = "GMT"),
                       as.POSIXct(paste(as.character(fields[iteration,]$`Harvest Date`), "23:00:00"), tz = "GMT"),

@@ -17,7 +17,7 @@ get_chunk_info(lat, lon, nc_data)
 Vector containing chunk id, y and x
 }
 \description{
-Utilized in the purrr function. get_chunk_info ...
+Utilized in the purrr function. This function will return metadata for a latitude and longitude in the specific chunk.
 }
 \examples{
 # Set coordinates of farm field
@@ -27,6 +27,6 @@ nc_data <- load_index_data()
 # Get chunk coordinates for farm field
 chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
 chunk_id <- chunk_info[1]
-in_chunk_x <- as.numeric(chunk_info[2])
-in_chunk_y <- as.numeric(chunk_info[3])
+in_chunk_row <- chunk_info[2]
+in_chunk_col <- chunk_info[3]
 }

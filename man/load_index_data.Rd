@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_retrival.R
 \name{load_index_data}
 \alias{load_index_data}
-\title{Gets MetaData on chunks from URL}
+\title{Gets Metadata on chunks from HRRR URL}
 \usage{
 load_index_data()
 }
@@ -18,11 +18,4 @@ adding further detail to that provided by the hourly data assimilation from the 
 \examples{
 # Download HRRR grid metadata to get chunk_id and x and y for coordinates
 nc_data <- load_index_data()
-# Set coordinates of farm field
-farm_coords <- c(43.854, -111.776)
-# Get chunk coordinates for farm field
-chunk_info <- get_chunk_info(farm_coords[1], farm_coords[2], nc_data)
-chunk_id <- chunk_info[1]
-in_chunk_x <- as.numeric(chunk_info[2])
-in_chunk_y <- as.numeric(chunk_info[3])
 }

@@ -14,7 +14,6 @@
 #' @return A numeric value, the GDD--Growth Degree Day for a specific crop
 #' @export
 #'
-#' @examples
 gdh <- function(..., crop, crop_data) {
   crop_subset <- subset(crop_data, crop_name == crop)
   # Obtain base temp value from crop_data based on crop
