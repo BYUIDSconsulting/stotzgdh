@@ -73,12 +73,13 @@ gdh <- function(..., crop, crop_data) {
 ## Formulas 
 
 $$
-\text{GDH}_i = \text{Temperature}_i - \text{Base Temperature} \\
-\text{Where } i \text{ is the hour the temperature is taken.} 
+\text{GDH}_i = \text{Temperature}_i - \text{Base Temperature}\\
+\text{Where } i \text{ is the hour the temperature is taken.}  
 $$
 
+
 $$
-\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperatre}} 
+\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperatre}} = \frac{\text{GDH}_1 + \text{GDH}_2 + ... + \text{GDH}_{24}}{\text{Base Temperature}}
 $$
 
 # The Fucnction `gdh()`
