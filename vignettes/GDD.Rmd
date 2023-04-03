@@ -73,8 +73,14 @@ gdh <- function(..., crop, crop_data) {
 ## Formulas 
 
 $$
-\text{GDH}_i = \text{Temperature}_i - \text{Base Temperature}\\
-\text{Where } i \text{ is the hour the temperature is taken.}  
+\text{GDH}_i = \cases{ \text{T}_i - \text{BT}   & $\text{when HT} > \text{T}_i > \text{BT}$ \cr
+                      \text{HT} - \text{BT}     & $\text{when T}_i>\text{HT}$ \cr
+                      0                         & $\text{when T}_i < \text{BT}$}\\
+\text{Where } \\
+\text{T is the temperature,} \\ 
+\text{BT is the base temperature thresholdof the crop,} \\
+\text{HT is the high temperature threshold of the crop,}
+\text{and } i \text{ is the hour the temperature is taken.}  
 $$
 
 
