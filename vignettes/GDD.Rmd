@@ -102,8 +102,25 @@ $$
 
 ## Example
 
+For this example, I will be only running one row of a fake dataset that I created to show how the function works. I first load in the data and display the table of fake data below. 
+
 ```{r}
 load("~/GitHub/package/stotzgdh/data/crop_base_temp.rda")
-DT::datatable(crop_base_temp)
+load("~/GitHub/package/stotzgdh/data/temp_data_hours.rda")
+DT::datatable(temp_data_hours)
 ```
+
+Next, I will set up a new data set similar to the script for the package, adding a column for GDD. I will then call the function to re-write that `NA` value. For bigger data sets, as seen in the main script, the use of for loop is recommended. The number below shows the value of the calculated GDD from the fake data set. 
+
+```{r}
+result <- temp_data_hours
+result$GDD <- NA
+
+
+result$GDD[1] <- gdh(result[1, 4:27], crop = result$`crop_name`[1], crop_data = crop_base_temp)
+  
+
+print(result$GDD)
+```
+
 
