@@ -3,10 +3,7 @@
 #' An example dataset resembling the input from the csv file and output after the GDD function has been applied. It is
 #' designed to show how the Linear interpolation works.
 #'
-#'
-#'
-#' @format description
-#' A data frame with 8 rows and 9 columns:
+#' @format A data frame with 8 rows and 9 columns:
 #' \describe{
 #'    \item{Field ID}{The field ID of interest}
 #'    \item{Crop Season}{Year for the crop}
@@ -19,7 +16,6 @@
 #'}
 #'
 #' @source Data was generated and is found in the DATASET.R script
-#'
 
 
 
@@ -28,7 +24,7 @@
 #' A dataset containing the lower and upper threshold in Fahrenheit and Celsius for 20 crops Stotz's is interested
 #'
 #'
-#' @format description
+#' @format a dataframe of 20 rows and 5 columns
 #' \describe{
 #'    \item{crop_name}{Name of Crop}
 #'    \item{base_temp_f}{Lower threshold of crop in Farenheit}
@@ -39,7 +35,6 @@
 #'
 #'
 #' @source a csv file give to use
-#'
 
 
 
@@ -47,7 +42,7 @@
 #'
 #' A dataset containing 250 Field ID's of interest for Stotz and their associated Latitude, Longitude, State, and field elevation
 #'
-#' @format
+#' @format a dataframe of 250 rows and 5 columns
 #' \describe{
 #'    \item{FIELD_ID}{Field ID}
 #'    \item{field_lat}{Latitude of the field}
@@ -55,8 +50,6 @@
 #'    \item{state}{State the field is in}
 #'    \item{field_elevation}{Elevation of the field measured in feet}
 #'}
-#'
-#'
 
 
 
@@ -65,7 +58,7 @@
 #' A small dataset derieved from the data retrieval process to test which method of interpolation to use. NA values were made on random values. The dataset
 #'  Contains the true values associated with the na values. The methods tested were Linear or Weighted Moving average.
 #'
-#' @format
+#' @format a dataframe of 200 rows and 8 columns
 #' \describe{
 #'    \item{date}{Date}
 #'    \item{Lat}{Latitude}
@@ -75,9 +68,7 @@
 #'    \item{na_ma_method}{Weighted Moving Average results}
 #'    \item{na_interpolation_method}{Linear Average results}
 #'    \item{GDD_alfalfa_answer}{Contains true value where Na is in GDD_alfalfa}
-#'
 #' }
-#'
 
 
 
@@ -85,11 +76,10 @@
 #'
 #' A dataset created for the GDD vignette that resembles the actual input data to the function in the script.
 #'
-#' @format
+#' @format A dataframe of 1 row and 27 columns
 #' \describe{
 #'    \item{crop_name}{Crop Name}
 #'    \item{lat}{Latitude}
 #'    \item{long}{Longitude}
 #'    \item{hour0, hour1, hour2, ...}{Hours of the day from hour 0 to hour 23}
 #' }
-#'
