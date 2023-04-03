@@ -16,7 +16,7 @@
 #'}
 #'
 #' @source Data was generated and is found in the DATASET.R script
-
+"li_test"
 
 
 #' Crop Base Temperature
@@ -35,7 +35,7 @@
 #'
 #'
 #' @source a csv file give to use
-
+"crop_base_temp"
 
 
 #' Fields 250
@@ -50,7 +50,7 @@
 #'    \item{state}{State the field is in}
 #'    \item{field_elevation}{Elevation of the field measured in feet}
 #'}
-
+"fields_250"
 
 
 #' Interpolation Test Dataset
@@ -69,7 +69,7 @@
 #'    \item{na_interpolation_method}{Linear Average results}
 #'    \item{GDD_alfalfa_answer}{Contains true value where Na is in GDD_alfalfa}
 #' }
-
+"interpolation_test_dataset"
 
 
 #' Temperature Data Hours
@@ -83,3 +83,4 @@
 #'    \item{long}{Longitude}
 #'    \item{hour0, hour1, hour2, ...}{Hours of the day from hour 0 to hour 23}
 #' }
+"temp_data_hours"
