@@ -60,7 +60,7 @@ pacman::p_load(DT, tidyverse, stotzgdh)
 ## Example Data
 
 ```{r load data, message=FALSE, warning=FALSE}
-load("~/Projects/Stotz_Consulting_Class/stotzgdh/data/li_test.rda")
+stotzgdh::li_test
 DT::datatable(li_test)
 ```
 

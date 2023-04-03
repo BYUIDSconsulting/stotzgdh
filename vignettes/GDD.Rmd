@@ -105,8 +105,9 @@ $$
 For this example, I will be only running one row of a fake dataset that I created to show how the function works. I first load in the data and display the table of fake data below. 
 
 ```{r}
-load("~/GitHub/package/stotzgdh/data/crop_base_temp.rda")
-load("~/GitHub/package/stotzgdh/data/temp_data_hours.rda")
+stotzgdh::crop_base_temp
+stotzgdh::temp_data_hours
+
 DT::datatable(temp_data_hours)
 ```
 
