@@ -60,15 +60,15 @@ pacman::p_load(DT, tidyverse, stotzgdh)
 ## Example Data
 
 ```{r load data, message=FALSE, warning=FALSE}
-stotzgdh::li_test
-DT::datatable(li_test)
+dat <- stotzgdh::li_test
+DT::datatable(dat)
 ```
 
 
 * This table matches the file you will provide and the output we will send back to you. The step in between or last step in between the input and output is Linear interpolation of NA values. 
 
 ```{r apply function, message=FALSE}
-li_after <- stotzgdh::li(li_test)
+li_after <- stotzgdh::li(dat)
 ```
 
 * It is important to note that the data set contains two groups or unique groups. Linear interpolation is done on those groups individually and then combines them back together. 
@@ -91,9 +91,9 @@ DT::datatable(li_after)
 * The following data was used
 
 ```{r}
-load("~/Projects/Stotz_Consulting_Class/stotzgdh/data/interpolation_test_dataset.rda")
+test_dat <- stotzgdh::interpolation_test_dataset
 
-DT::datatable(interpolation_test_dataset)
+DT::datatable(test_dat)
 ```
 
 ## Methodology

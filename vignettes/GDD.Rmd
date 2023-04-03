@@ -105,10 +105,10 @@ $$
 For this example, I will be only running one row of a fake dataset that I created to show how the function works. I first load in the data and display the table of fake data below. 
 
 ```{r}
-stotzgdh::crop_base_temp
-stotzgdh::temp_data_hours
+crop_temp <- stotzgdh::crop_base_temp
+test_dat <- stotzgdh::temp_data_hours
 
-DT::datatable(temp_data_hours)
+DT::datatable(test_dat)
 ```
 
 Next, I will set up a new data set similar to the script for the package, adding a column for GDD. I will then call the function to re-write that `NA` value. For bigger data sets, as seen in the main script, the use of for loop is recommended. The number below shows the value of the calculated GDD from the fake data set. 
