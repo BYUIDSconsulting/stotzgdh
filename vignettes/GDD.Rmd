@@ -9,6 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
+  echo = FALSE, 
   collapse = TRUE,
   comment = "#>"
 )
@@ -79,11 +80,9 @@ $$
 
 
 $$
-<<<<<<< HEAD
 \text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} 
-=======
+=
 \text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} = \frac{\text{GDH}_1 + \text{GDH}_2 + ... + \text{GDH}_{24}}{\text{Base Temperature}}
->>>>>>> 4077c6424b73cee40f0abed224fc2247e990a449
 $$
 
 # The Fucnction `gdh()`
