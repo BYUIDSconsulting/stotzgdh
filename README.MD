@@ -32,6 +32,11 @@ Install Anaconda on your computer here https://docs.anaconda.com/anaconda/instal
 In anaconda you will want to make sure you have numpy and numcodecs installed. If they are not you can install them in anaconda.
 
 
+##### R Notes
+
+To utilize the python packages in R, the r package reticulate needs to be installed. This is a dependency in the Stotzgdh package and will be loaded when the package is installed. More about the reticulate package can be found here https://rstudio.github.io/reticulate/
+
+
 #### Stotzgdh package Installation
 
 
