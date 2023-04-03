@@ -6,7 +6,9 @@ Authors@R:
     c(person("J.", "Hathway", role = c("aut", "cre"), email = "hathwayj@byui.edu", comment = c(ORCID = "0000-0002-1574-0832")),
       person("Mike", "Min", role = c("aut"),comment = c("package functions")),
       person("Jackson", "Merchen", role = c("aut"), comment = c("package functions")),
-      person("Matthew", "Goodsell", role = c("aut"), comment = c("package structure and linear interpolation function"))
+      person("Matthew", "Goodsell", role = c("aut"), comment = c("package structure and linear interpolation function")), 
+      person("Benjamin", "Bowen", role = c("aut"), comment = c("GDH function and research"), 
+      person("Abigail", "Taylor", role = c("aut")))
     )
 Description: Weather is retrieved from HRRR an amazon service. It pulls data for certain 
     chunks where stotz customers are. It converts the temp from Kelvin to Farenheit. Saves 
