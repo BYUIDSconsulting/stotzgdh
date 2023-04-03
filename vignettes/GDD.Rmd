@@ -79,11 +79,7 @@ $$
 
 
 $$
-<<<<<<< HEAD
-\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} 
-=======
 \text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} = \frac{\text{GDH}_1 + \text{GDH}_2 + ... + \text{GDH}_{24}}{\text{Base Temperature}}
->>>>>>> 4077c6424b73cee40f0abed224fc2247e990a449
 $$
 
 # The Fucnction `gdh()`
@@ -98,3 +94,9 @@ $$
   - if the crop names in the imputed file does not match any of the crops found in `crop_base_temp.rda`, the package  will prompt the user to match the crop names not found in `crop_base_temp.rda` by showing the crop name that is not found and examples of crops that can be used and asks the user to correct their imputed file. 
 
 ## Example
+
+```{r}
+load("~/GitHub/package/stotzgdh/data/crop_base_temp.rda")
+DT::datatable(crop_base_temp)
+```
+
