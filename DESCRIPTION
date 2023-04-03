@@ -24,22 +24,13 @@ LazyData: true
 Imports: 
   tidyverse,
   lubridate,
-  here, 
-  DBI, 
-  odbc, 
-  spatialrisk, 
-  measurements,
-  readxl,
   sf,
-  raster,
   ncdf4,
   reticulate,
   stringi,
   furrr,
   purrr,
-  data.table,
-  imputeTS,
-  R.utils
+  imputeTS
 Depends: 
     R (>= 2.10)
 Suggests: 

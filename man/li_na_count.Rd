@@ -17,7 +17,7 @@ Percent of days with NA for temperature
 }
 \examples{
 
-View(li_test)
+# View(li_test)
 
 li_na_count(li_test)
 

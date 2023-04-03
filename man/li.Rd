@@ -25,9 +25,9 @@ if it is the first row.
 \examples{
 
 # By Viewing you will see two na values
-View(li_test)
+# View(li_test)
 
 li_data <- li(li_test)
 # The Results of the data after Linear interpolation is applied
-View(li_data)
+#View(li_data)
 }
