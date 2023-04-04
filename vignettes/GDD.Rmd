@@ -22,25 +22,25 @@ pacman::p_load("DT", "tidyverse", "stotzgdh")
 
 
 ```{r gdh}
-gdh <- function(..., crop, crop_data) {
-  crop_subset <- subset(crop_data, crop_name == crop)
-  # Obtain base temp value from crop_data based on crop
-  base_temp <- as.numeric(crop_subset[1,2])
-  # Obtain upper threshold value from crop_data based on crop
-  threshold <- as.numeric(crop_subset[1,4])
-  # Check for NA values using is.na() and return NA if any temperature values are missing
-  if (any(is.na(c(...)))) {
-    return(NA)
-  } else {
-    # Replace negative values with zero using pmax()
-    # Replace values exceeding the threshold with the threshold value
-    values <- pmax(pmin(..., threshold)-base_temp, 0)
-    
- 
-    # Return the sum of the values and divide by the base temp
-    return(sum(values)/base_temp)
-  }
-}
+# gdh <- function(..., crop, crop_data) {
+#   crop_subset <- subset(crop_data, crop_name == crop)
+#   # Obtain base temp value from crop_data based on crop
+#   base_temp <- as.numeric(crop_subset[1,2])
+#   # Obtain upper threshold value from crop_data based on crop
+#   threshold <- as.numeric(crop_subset[1,4])
+#   # Check for NA values using is.na() and return NA if any temperature values are missing
+#   if (any(is.na(c(...)))) {
+#     return(NA)
+#   } else {
+#     # Replace negative values with zero using pmax()
+#     # Replace values exceeding the threshold with the threshold value
+#     values <- pmax(pmin(..., threshold)-base_temp, 0)
+#     
+#  
+#     # Return the sum of the values and divide by the base temp
+#     return(sum(values)/base_temp)
+#   }
+# }
 ```
 
 # Prior Knowledge Needed
@@ -105,21 +105,61 @@ $$
 For this example, I will be only running one row of a fake dataset that I created to show how the function works. I first load in the data and display the table of fake data below. 
 
 ```{r}
-test_dat <- stotzgdh::temp_data_hours
+field_id <- c('2c1aed90-3cb6-4476-b237-44162245c8cb')
+crop_season <- c(2022)
+crop_name <- c("cotton")
+lat <- c(33.049406331)
+long <- c(-112.078917325)
+seeding_date <- c("4/13/2022")
+harvest_date <- c("10/27/2022")
+hour0 <- c(56)
+hour1 <- c(54)
+hour2 <- c(53)
+hour3 <- c(51)
+hour4 <- c(49)
+hour5 <- c(48)
+hour6 <- c(47)
+hour7 <- c(47)
+hour8 <- c(52)
+hour9 <- c(56)
+hour10 <- c(59)
+hour11 <- c(62)
+hour12 <- c(65)
+hour13 <- c(67)
+hour14 <- c(70)
+hour15 <- c(73)
+hour16 <- c(74)
+hour17 <- c(75)
+hour18 <- c(76)
+hour19 <- c(73)
+hour20 <- c(69)
+hour21 <- c(67)
+hour22 <- c(64)
+hour23 <- c(60)
 
-DT::datatable(test_dat)
+temp_data_hours <- data.frame(crop_name,lat,long,hour0,hour1,hour2,hour3,hour4,hour5, hour6,
+                   hour7,hour8,hour9,hour10,hour11,hour12,hour13,
+                   hour14,hour15,hour16,hour17,hour18,hour19,
+                   hour20,hour21,hour22,hour23)
+```
+
+
+```{r}
+# test_dat <- stotzgdh::temp_data_hours
+
+DT::datatable(temp_data_hours)
 ```
 
 Next, I will set up a new data set similar to the script for the package, adding a column for GDD. I will then call the function to re-write that `NA` value. For bigger data sets, as seen in the main script, the use of for loop is recommended. The number below shows the value of the calculated GDD from the fake data set. 
 
 ```{r}
-result <- test_dat
+result <- temp_data_hours
 result$GDD <- NA
 
 
 result$GDD[1] <- gdh(result[1, 4:27], crop = result$`crop_name`[1], crop_data = stotzgdh::crop_base_temp)
-  
-
+   
+ 
 print(result$GDD)
 ```
 
