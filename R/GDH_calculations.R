@@ -63,8 +63,8 @@ li <- function(data){
   # groupby field id, crop season, cropname to split each group into a dataframe.
   group <- data %>%
     dplyr::mutate(temp_is_na = dplyr::case_when(is.na(GDD) ~ 1,
-                                                TRUE ~ 0)) %>%
-    dplyr::group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
+                                                TRUE ~ 0)) |>
+    dplyr::group_by(`Field Id`, `Crop Season`, `Crop Name`) |>
     dplyr::group_split()
   # create grouplist vector
   grouplist = vector("list", length = length(group))

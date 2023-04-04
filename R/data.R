@@ -1,4 +1,4 @@
-#' Linear Interpolation
+#' Linear Interpolation test Dataset
 #'
 #' An example dataset resembling the input from the csv file and output after the GDD function has been applied. It is
 #' designed to show how the Linear interpolation works.
@@ -19,7 +19,7 @@
 "li_test"
 
 
-#' Crop Base Temperature
+#' Crop Base Temperature Dataset
 #'
 #' A dataset containing the lower and upper threshold in Fahrenheit and Celsius for 20 crops Stotz's is interested
 #'
@@ -38,7 +38,7 @@
 "crop_base_temp"
 
 
-#' Fields 250
+#' Fields 250 Dataset
 #'
 #' A dataset containing 250 Field ID's of interest for Stotz and their associated Latitude, Longitude, State, and field elevation
 #'
@@ -71,16 +71,3 @@
 #' }
 "interpolation_test_dataset"
 
-
-#' Temperature Data Hours
-#'
-#' A dataset created for the GDD vignette that resembles the actual input data to the function in the script.
-#'
-#' @format A dataframe of 1 row and 27 columns
-#' \describe{
-#'    \item{crop_name}{Crop Name}
-#'    \item{lat}{Latitude}
-#'    \item{long}{Longitude}
-#'    \item{hour0, hour1, hour2}{Hours of the day from hour 0 to hour 23}
-#' }
-"temp_data_hours"
