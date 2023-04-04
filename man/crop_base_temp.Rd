@@ -3,7 +3,7 @@
 \docType{data}
 \name{crop_base_temp}
 \alias{crop_base_temp}
-\title{Crop Base Temperature}
+\title{Crop Base Temperature Dataset}
 \format{
 a dataframe of 20 rows and 5 columns
 \describe{

@@ -3,7 +3,7 @@
 \docType{data}
 \name{li_test}
 \alias{li_test}
-\title{Linear Interpolation}
+\title{Linear Interpolation test Dataset}
 \format{
 A data frame with 8 rows and 9 columns:
 \describe{

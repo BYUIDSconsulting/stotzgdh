@@ -3,7 +3,7 @@
 \docType{data}
 \name{fields_250}
 \alias{fields_250}
-\title{Fields 250}
+\title{Fields 250 Dataset}
 \format{
 a dataframe of 250 rows and 5 columns
 \describe{
