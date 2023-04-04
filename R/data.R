@@ -81,6 +81,6 @@
 #'    \item{crop_name}{Crop Name}
 #'    \item{lat}{Latitude}
 #'    \item{long}{Longitude}
-#'    \item{hour0, hour1, hour2, ...}{Hours of the day from hour 0 to hour 23}
+#'    \item{hour0, hour1, hour2}{Hours of the day from hour 0 to hour 23}
 #' }
 "temp_data_hours"
