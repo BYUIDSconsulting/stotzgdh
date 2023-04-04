@@ -60,8 +60,11 @@
 
 
 
-
-<div class="row">
+<script src="GDD_files/htmlwidgets-1.6.1/htmlwidgets.js"></script><link href="GDD_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="GDD_files/datatables-binding-0.27/datatables.js"></script><link href="GDD_files/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="GDD_files/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="GDD_files/dt-core-1.12.1/js/jquery.dataTables.min.js"></script><link href="GDD_files/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="GDD_files/crosstalk-1.2.0/js/crosstalk.min.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>GDD</h1>
             
@@ -133,12 +136,19 @@ works best for the data pulled from the data base.</li>
 <h3 id="formulas">Formulas<a class="anchor" aria-label="anchor" href="#formulas"></a>
 </h3>
 <p><span class="math display">\[
-\text{GDH}_i = \text{Temperature}_i - \text{Base Temperature}\\
-\text{Where } i \text{ is the hour the temperature is taken.}  
+\text{GDH}_i = \cases{ \text{T}_i - \text{BT}   &amp; $\text{when HT}
+&gt; \text{T}_i &gt; \text{BT}$ \cr
+                      \text{HT} - \text{BT}     &amp; $\text{when
+T}_i&gt;\text{HT}$ \cr
+                      0                         &amp; $\text{when T}_i
+&lt; \text{BT}$}\\
+\text{Where } \\
+\text{T is the temperature,} \\
+\text{BT is the base temperature thresholdof the crop,} \\
+\text{HT is the high temperature threshold of the crop,}
+\text{and } i \text{ is the hour the temperature is taken.}  
 \]</span></p>
 <p><span class="math display">\[
-\text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}}
-=
 \text{GDD} = \frac{\sum{\text{GDH}}}{\text{Base Temperature}} =
 \frac{\text{GDH}_1 + \text{GDH}_2 + ... + \text{GDH}_{24}}{\text{Base
 Temperature}}
@@ -177,6 +187,16 @@ correct their imputed file.</li>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
+<p>For this example, I will be only running one row of a fake dataset
+that I created to show how the function works. I first load in the data
+and display the table of fake data below.</p>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-293b2f80c36842a5bf31" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-293b2f80c36842a5bf31">{"x":{"filter":"none","vertical":false,"data":[["1"],["cotton"],[33.049406331],[-112.078917325],[56],[54],[53],[51],[49],[48],[47],[47],[52],[56],[59],[62],[65],[67],[70],[73],[74],[75],[76],[73],[69],[67],[64],[60]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>crop_name<\/th>\n      <th>lat<\/th>\n      <th>long<\/th>\n      <th>hour0<\/th>\n      <th>hour1<\/th>\n      <th>hour2<\/th>\n      <th>hour3<\/th>\n      <th>hour4<\/th>\n      <th>hour5<\/th>\n      <th>hour6<\/th>\n      <th>hour7<\/th>\n      <th>hour8<\/th>\n      <th>hour9<\/th>\n      <th>hour10<\/th>\n      <th>hour11<\/th>\n      <th>hour12<\/th>\n      <th>hour13<\/th>\n      <th>hour14<\/th>\n      <th>hour15<\/th>\n      <th>hour16<\/th>\n      <th>hour17<\/th>\n      <th>hour18<\/th>\n      <th>hour19<\/th>\n      <th>hour20<\/th>\n      <th>hour21<\/th>\n      <th>hour22<\/th>\n      <th>hour23<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>Next, I will set up a new data set similar to the script for the
+package, adding a column for GDD. I will then call the function to
+re-write that <code>NA</code> value. For bigger data sets, as seen in
+the main script, the use of for loop is recommended. The number below
+shows the value of the calculated GDD from the fake data set.</p>
+<pre><code><span><span class="co">#&gt; [1] 1.916667</span></span></code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -187,7 +207,7 @@ correct their imputed file.</li>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by J. Hathway, Mike Min, Jackson Merchen, Matthew Goodsell.</p>
+<p>Developed by J. Hathway, Mike Min, Jackson Merchen, Matthew Goodsell, Benjamin Bowen, Abigail Taylor.</p>
 </div>
 
 <div class="pkgdown-footer-right">
