@@ -16,32 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# library(stotzgdh) # won't load 
 pacman::p_load(DT, tidyverse, stotzgdh)
-```
-
-
-```{r li_function}
-# li <- function(data){
-#   # groupby field id, crop season, cropname to split each group into a dataframe.
-#   group <- data %>%
-#     dplyr::mutate(temp_is_na = dplyr::case_when(is.na(GDD) ~ 1,
-#                                                 TRUE ~ 0)) %>%
-#     dplyr::group_by(`Field Id`, `Crop Season`, `Crop Name`) %>%
-#     dplyr::group_split()
-#   # create grouplist vector
-#   grouplist = vector("list", length = length(group))
-#   # loop through to each dataframe seperately to interpolate the GDD
-#   for (i in 1:length(group)) {
-#     temp_df <- group[[i]] %>% imputeTS::na_interpolation(group[[i]]$GDD, option = 'linear', maxgap = Inf)
-# 
-#     grouplist[[i]] <- temp_df
-#   }
-#   # rbind all dataframes back into one
-#   rbind_test <- do.call('rbind', grouplist)
-# 
-#   return(rbind_test)
-# }
 ```
 
 

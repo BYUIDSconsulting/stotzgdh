@@ -34,7 +34,7 @@
 #' }
 #'
 #'
-#' @source a csv file give to use
+#' @source a csv file given to use
 "crop_base_temp"
 
 
@@ -50,6 +50,8 @@
 #'    \item{state}{State the field is in}
 #'    \item{field_elevation}{Elevation of the field measured in feet}
 #'}
+#'
+#' @source a csv file given to use
 "fields_250"
 
 
